@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.domain;
 
 import jakarta.persistence.*;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.dto.EnrollmentDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 
 import java.time.LocalDateTime;
@@ -27,8 +28,8 @@ public class Enrollment {
     public Enrollment() {
     }
 
-    public Enrollment(String motivation, Activity activity, Volunteer volunteer) {
-        setMotivation(motivation);
+    public Enrollment(Activity activity, Volunteer volunteer, EnrollmentDto enrollmentDto) {
+        setMotivation(enrollmentDto.getMotivation());
         setEnrollmentDateTime(LocalDateTime.now());
         setActivity(activity);
         setVolunteer(volunteer);
