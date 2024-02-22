@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain;
 import jakarta.persistence.*;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.domain.Enrollment;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.domain.Participation;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme;
@@ -45,6 +46,9 @@ public class Activity {
 
     @OneToMany(mappedBy = "activity", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Enrollment> enrollments = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "activity", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Participation> participations = new ArrayList<>();
 
     public Activity() {
     }
@@ -243,6 +247,14 @@ public class Activity {
 
     public void addEnrollment(Enrollment enrollment) {
         this.enrollments.add(enrollment);
+    }
+    
+    public List<Participation> getParticipations() {
+        return participations;
+    }
+
+    public void addParticipation(Participation participation) {
+        this.participations.add(participation);
     }
 
     private void verifyInvariants() {
