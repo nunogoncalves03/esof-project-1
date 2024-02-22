@@ -47,7 +47,7 @@ public class Activity {
     @OneToMany(mappedBy = "activity", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Enrollment> enrollments = new ArrayList<>();
     
-    @OneToMany(mappedBy = "activity", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "activity", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Participation> participations = new ArrayList<>();
 
     public Activity() {
@@ -248,7 +248,7 @@ public class Activity {
     public void addEnrollment(Enrollment enrollment) {
         this.enrollments.add(enrollment);
     }
-    
+
     public List<Participation> getParticipations() {
         return participations;
     }

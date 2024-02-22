@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.domain;
 import jakarta.persistence.*;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto.ParticipationDto;
 
 import java.time.LocalDateTime;
 
@@ -27,8 +28,8 @@ public class Participation {
     public Participation() {
     }
 
-    public Participation(Activity activity, Volunteer volunteer/*, ParticipationDto participationDto*/) {
-        //setRating(participationDto.getRating());
+    public Participation(Activity activity, Volunteer volunteer, ParticipationDto participationDto) {
+        setRating(participationDto.getRating());
         setActivity(activity);
         setVolunteer(volunteer);
         setAcceptanceDate(LocalDateTime.now());
