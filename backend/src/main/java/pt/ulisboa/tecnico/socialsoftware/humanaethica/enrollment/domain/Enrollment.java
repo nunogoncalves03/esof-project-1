@@ -88,7 +88,7 @@ public class Enrollment {
     }
 
     private void motivationHasAtLeastTenCharacters() {
-        if (this.motivation.length() < Enrollment.MINIMUM_MOTIVATION_LENGTH) {
+        if (this.motivation == null || this.motivation.trim().length() < Enrollment.MINIMUM_MOTIVATION_LENGTH) {
             throw new HEException(ENROLLMENT_MOTIVATION_SHOULD_HAVE_AT_LEAST_TEN_CHARACTERS);
         }
     }
