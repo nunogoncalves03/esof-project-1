@@ -23,6 +23,9 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.repository.Activi
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.ActivityService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.repository.ThemeRepository
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.ThemeService
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.dto.EnrollmentDto
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.repository.EnrollmentRepository
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.Mailer
 import spock.lang.Specification
@@ -212,6 +215,25 @@ class SpockTest extends Specification {
         activityDto.setApplicationDeadline(DateHandler.toISOString(deadline))
         activityDto.setThemes(themesDto)
         activityDto
+    }
+
+    // enrollment
+    
+    public static final String ENROLLMENT_MOTIVATION_1 = "enrollment motivation 1"
+
+    @Autowired
+    EnrollmentRepository enrollmentRepository
+
+    // @Autowired
+    // EnrollmentService enrollmentService
+
+    protected EnrollmentDto createEnrollemntDto(motivation, enrollmentDateTime, activityDto, volunteerDto) {
+        def enrollmentDto = new EnrollmentDto()
+        enrollmentDto.setMotivation(motivation)
+        enrollmentDto.setEnrollmentDateTime(DateHandler.toISOString(enrollmentDateTime))
+        enrollmentDto.setActivity(activityDto)
+        enrollmentDto.setVolunteer(volunteerDto)
+        enrollmentDto
     }
 
     // clean database
