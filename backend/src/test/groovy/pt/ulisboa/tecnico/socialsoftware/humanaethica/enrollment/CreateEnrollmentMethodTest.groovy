@@ -22,7 +22,6 @@ class CreateEnrollmentMethodTest extends SpockTest {
         given: "enrollment info"
         enrollmentDto = new EnrollmentDto()
         enrollmentDto.motivation = ENROLLMENT_MOTIVATION_1
-        enrollmentDto.enrollmentDateTime = DateHandler.toISOString(NOW)
     }
 
     def "create enrollment with valid motivation, valid enrollmentDateTime and no previous enrollment of volunteer"() {
@@ -61,6 +60,21 @@ class CreateEnrollmentMethodTest extends SpockTest {
 
         where:
         motivation << [null, ENROLLMENT_MOTIVATION_0_CHARACTERS, ENROLLMENT_MOTIVATION_9_CHARACTERS, ENROLLMENT_MOTIVATION_SPACES]
+    }
+
+    def "create enrollment and violate single enrollment by volunteer invariant"() {
+        given:
+        Enrollment pastEnrollment = Mock()
+        pastEnrollment.getActivity() >> activity
+        volunteer.getEnrollments() >> [pastEnrollment]
+        activity.getEndingDate() >> IN_TWO_DAYS
+
+        when:
+        new Enrollment(activity, volunteer, enrollmentDto)
+
+        then:
+        def error = thrown(HEException)
+        error.getErrorMessage() == ErrorMessage.ENROLLMENT_VOLUNTEER_CAN_ONLY_ENROLL_IN_ACTIVITY_ONCE
     }
 
     @TestConfiguration
