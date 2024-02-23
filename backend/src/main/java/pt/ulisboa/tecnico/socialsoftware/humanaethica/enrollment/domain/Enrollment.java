@@ -3,13 +3,18 @@ package pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.domain;
 import jakarta.persistence.*;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.dto.EnrollmentDto;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
+
+import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "enrollment")
 public class Enrollment {
+
+    private static final int MINIMUM_MOTIVATION_LENGTH = 10;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +38,8 @@ public class Enrollment {
         setEnrollmentDateTime(LocalDateTime.now());
         setActivity(activity);
         setVolunteer(volunteer);
+
+        verifyInvariants();
     }
 
     public Integer getId() {
@@ -71,5 +78,30 @@ public class Enrollment {
     public void setVolunteer(Volunteer volunteer) {
         this.volunteer = volunteer;
         volunteer.addEnrollment(this);
+    }
+
+    private void verifyInvariants() {
+        motivationHasAtLeastTenCharacters();
+        volunteerCanOnlyEnrollInActivityOnce();
+        volunteerCantEnrollInActivityAfterEndingDate();
+    }
+
+    private void motivationHasAtLeastTenCharacters() {
+        if (this.motivation.length() < Enrollment.MINIMUM_MOTIVATION_LENGTH) {
+            throw new HEException(ENROLLMENT_MOTIVATION_SHOULD_HAVE_AT_LEAST_TEN_CHARACTERS);
+        }
+    }
+
+    private void volunteerCanOnlyEnrollInActivityOnce() {
+        if (this.volunteer.getEnrollments().stream()
+                .anyMatch(enrollment -> enrollment.getActivity().equals(this.activity))) {
+            throw new HEException(ENROLLMENT_VOLUNTEER_CAN_ONLY_ENROLL_IN_ACTIVITY_ONCE);
+        }
+    }
+
+    private void volunteerCantEnrollInActivityAfterEndingDate() {
+        if (this.activity.getEndingDate().isBefore(this.enrollmentDateTime)) {
+            throw new HEException(ENROLLMENT_VOLUNTEER_CANT_ENROLL_IN_ACTIVITY_AFTER_ENDING_DATE);
+        }
     }
 }
