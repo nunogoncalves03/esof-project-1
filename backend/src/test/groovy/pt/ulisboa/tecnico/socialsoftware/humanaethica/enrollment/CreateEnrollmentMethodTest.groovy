@@ -77,6 +77,19 @@ class CreateEnrollmentMethodTest extends SpockTest {
         error.getErrorMessage() == ErrorMessage.ENROLLMENT_VOLUNTEER_CAN_ONLY_ENROLL_IN_ACTIVITY_ONCE
     }
 
+    def "create enrollment and violate enrollment after ending date invariant"() {
+        given:
+        volunteer.getEnrollments() >> []
+        activity.getEndingDate() >> ONE_DAY_AGO
+
+        when:
+        new Enrollment(activity, volunteer, enrollmentDto)
+
+        then:
+        def error = thrown(HEException)
+        error.getErrorMessage() == ErrorMessage.ENROLLMENT_VOLUNTEER_CANT_ENROLL_IN_ACTIVITY_AFTER_ENDING_DATE
+    }
+
     @TestConfiguration
     static class LocalBeanConfiguration extends BeanConfiguration {}
 }
