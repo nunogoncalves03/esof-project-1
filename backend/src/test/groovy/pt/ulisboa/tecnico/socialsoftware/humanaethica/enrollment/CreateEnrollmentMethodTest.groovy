@@ -4,15 +4,13 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.context.TestConfiguration
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.BeanConfiguration
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.SpockTest
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.dto.EnrollmentDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler
 import spock.lang.Unroll
-
-import java.time.LocalDateTime
 
 @DataJpaTest
 class CreateEnrollmentMethodTest extends SpockTest {
@@ -43,6 +41,26 @@ class CreateEnrollmentMethodTest extends SpockTest {
         and: "invocations"
         1 * activity.addEnrollment(_)
         1 * volunteer.addEnrollment(_)
+    }
+
+    @Unroll
+    def "create enrollment and violate motivation minimum length invariant: motivation=#motivation"() {
+        given:
+        volunteer.getEnrollments() >> []
+        activity.getEndingDate() >> IN_TWO_DAYS
+
+        and: "an enrollment dto"
+        enrollmentDto.setMotivation(motivation)
+
+        when:
+        new Enrollment(activity, volunteer, enrollmentDto)
+
+        then:
+        def error = thrown(HEException)
+        error.getErrorMessage() == ErrorMessage.ENROLLMENT_MOTIVATION_SHOULD_HAVE_AT_LEAST_TEN_CHARACTERS
+
+        where:
+        motivation << [null, ENROLLMENT_MOTIVATION_0_CHARACTERS, ENROLLMENT_MOTIVATION_9_CHARACTERS, ENROLLMENT_MOTIVATION_SPACES]
     }
 
     @TestConfiguration
