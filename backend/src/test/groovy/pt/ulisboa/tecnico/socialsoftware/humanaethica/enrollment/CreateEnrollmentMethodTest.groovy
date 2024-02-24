@@ -16,30 +16,41 @@ import spock.lang.Unroll
 class CreateEnrollmentMethodTest extends SpockTest {
     Activity activity = Mock()
     Volunteer volunteer = Mock()
+    Activity otherActivity = Mock()
+    Enrollment otherEnrollment = Mock()
     def enrollmentDto
 
     def setup() {
         given: "enrollment info"
         enrollmentDto = new EnrollmentDto()
-        enrollmentDto.motivation = ENROLLMENT_MOTIVATION_1
+        enrollmentDto.motivation = ENROLLMENT_MOTIVATION_10_CHARACTERS
+
+        and: "different activity with associated enrollment"
+        otherActivity.getEndingDate() >> IN_TWO_DAYS
+        otherEnrollment.getActivity() >> otherActivity
     }
 
-    def "create enrollment with valid motivation, valid enrollmentDateTime and no previous enrollment of volunteer"() {
-        given:
-        volunteer.getEnrollments() >> []
-        activity.getEndingDate() >> IN_TWO_DAYS
+    @Unroll
+    def "create enrollment with valid motivation, valid enrollmentDateTime and valid previous enrollments of volunteer [with previous enrollment? #previousEnrollment]"() {
+        given: "valid enrollmentDateTime and previous enrollments"
+        activity.getEndingDate() >> IN_ONE_DAY
+        volunteer.getEnrollments() >> (previousEnrollment ? [otherEnrollment] : [])
 
         when:
         def result = new Enrollment(activity, volunteer, enrollmentDto)
 
         then: "check result"
-        result.getMotivation() == ENROLLMENT_MOTIVATION_1
+        result.getMotivation() == ENROLLMENT_MOTIVATION_10_CHARACTERS
         result.getEnrollmentDateTime() != null
         result.getActivity() == activity
         result.getVolunteer() == volunteer
         and: "invocations"
         1 * activity.addEnrollment(_)
         1 * volunteer.addEnrollment(_)
+
+        where:
+        // data variable that controls whether there is a previous enrollment or not
+        previousEnrollment << [false, true]
     }
 
     @Unroll

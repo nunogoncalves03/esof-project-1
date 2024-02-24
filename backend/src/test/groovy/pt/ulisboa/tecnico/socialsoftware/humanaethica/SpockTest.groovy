@@ -218,9 +218,9 @@ class SpockTest extends Specification {
 
     // enrollment
 
-    public static final String ENROLLMENT_MOTIVATION_1 = "enrollment motivation 1"
     public static final String ENROLLMENT_MOTIVATION_0_CHARACTERS = ""
     public static final String ENROLLMENT_MOTIVATION_9_CHARACTERS = "123456789"
+    public static final String ENROLLMENT_MOTIVATION_10_CHARACTERS = "0123456789"
     public static final String ENROLLMENT_MOTIVATION_SPACES = " 12345678 "
 
     @Autowired
