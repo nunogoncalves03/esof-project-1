@@ -36,7 +36,7 @@ class CreateParticipationMethodTest extends SpockTest {
         activity.applicationDeadline >> ONE_DAY_AGO
 
         when:
-        def result = new Participation(activity, volunteer, rating, participationDto)
+        def result = new Participation(activity, volunteer, participationDto)
 
         then: "check result"
         result.getRating() == PARTICIPATION_RATING_1
