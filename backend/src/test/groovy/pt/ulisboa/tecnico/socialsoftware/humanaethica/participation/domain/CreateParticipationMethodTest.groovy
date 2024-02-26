@@ -15,7 +15,7 @@ import spock.lang.Unroll
 import java.time.LocalDateTime
 
 @DataJpaTest
-class CreateActivityMethodTest extends SpockTest {
+class CreateParticipationMethodTest extends SpockTest {
     Activity activity = Mock()
     Volunteer volunteer = Mock()
     Integer rating = 1
@@ -40,7 +40,7 @@ class CreateActivityMethodTest extends SpockTest {
 
         then: "check result"
         result.getRating() == PARTICIPATION_RATING_1
-        result.getAcceptanceDate() == NOW
+        result.getAcceptanceDate() != null
         result.getActivity() == activity
         result.getVolunteer() == volunteer
 

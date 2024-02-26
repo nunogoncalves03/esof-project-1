@@ -33,19 +33,11 @@ public class Participation {
     public Participation() {
     }
 
-    public Participation(Activity activity, Volunteer volunteer, Integer rating, ParticipationDto participationDto) {
-        setRating(rating);
-        setActivity(activity);
-        setVolunteer(volunteer);
-        setAcceptanceDate(DateHandler.toLocalDateTime(participationDto.getAcceptanceDate()));
-
-        verifyInvariants();
-    }
-
     public Participation(Activity activity, Volunteer volunteer, ParticipationDto participationDto) {
+        setRating(participationDto.getRating());
         setActivity(activity);
         setVolunteer(volunteer);
-        setAcceptanceDate(DateHandler.toLocalDateTime(participationDto.getAcceptanceDate()));
+        setAcceptanceDate(DateHandler.now());
 
         verifyInvariants();
     }
@@ -95,7 +87,7 @@ public class Participation {
     }    
 
     private void limitOfActivityParticipantsReached() {
-        if (this.activity.getParticipations().size() == this.activity.getParticipantsNumberLimit()) {
+        if (this.activity.getParticipations().size() >= this.activity.getParticipantsNumberLimit()) {
             throw new HEException(LIMIT_OF_ACTIVITY_PARTICIPANTS_REACHED, this.activity.getName());
         }
     }
