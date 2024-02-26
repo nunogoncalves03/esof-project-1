@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto.ParticipationDto;
 
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
@@ -19,7 +20,7 @@ public class Participation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String rating;
+    private Integer rating;
 
     private LocalDateTime acceptanceDate;
 
@@ -32,11 +33,19 @@ public class Participation {
     public Participation() {
     }
 
-    public Participation(Activity activity, Volunteer volunteer, ParticipationDto participationDto) {
-        setRating(participationDto.getRating());
+    public Participation(Activity activity, Volunteer volunteer, Integer rating, ParticipationDto participationDto) {
+        setRating(rating);
         setActivity(activity);
         setVolunteer(volunteer);
-        setAcceptanceDate(LocalDateTime.now());
+        setAcceptanceDate(DateHandler.toLocalDateTime(participationDto.getAcceptanceDate()));
+
+        verifyInvariants();
+    }
+
+    public Participation(Activity activity, Volunteer volunteer, ParticipationDto participationDto) {
+        setActivity(activity);
+        setVolunteer(volunteer);
+        setAcceptanceDate(DateHandler.toLocalDateTime(participationDto.getAcceptanceDate()));
 
         verifyInvariants();
     }
@@ -45,11 +54,11 @@ public class Participation {
         return id;
     }
 
-    public String getRating() {
+    public Integer getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 
@@ -99,7 +108,7 @@ public class Participation {
     }
 
     private void volunteerCanOnlyBecomeParticipantAfterApplicationDeadline() {
-        if (this.activity.getApplicationDeadline().isBefore(this.acceptanceDate)) {
+        if (this.activity.getApplicationDeadline().isAfter(this.acceptanceDate)) {
             throw new HEException(VOLUNTEER_CAN_ONLY_BECOME_PARTICIPANT_AFTER_APPLICATION_DEADLINE);
         }
     }
