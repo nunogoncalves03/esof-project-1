@@ -2,8 +2,12 @@ package pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.domain;
 
 import jakarta.persistence.*;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto.ParticipationDto;
+
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
+import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.*;
 
 import java.time.LocalDateTime;
 
@@ -33,6 +37,8 @@ public class Participation {
         setActivity(activity);
         setVolunteer(volunteer);
         setAcceptanceDate(LocalDateTime.now());
+
+        verifyInvariants();
     }
 
     public Integer getId() {
@@ -72,4 +78,30 @@ public class Participation {
         this.volunteer = volunteer;
         volunteer.addParticipation(this);
     }
+
+    private void verifyInvariants() {
+        limitOfActivityParticipantsReached();
+        volunteerCanParticipateInActivityOnlyOnce();
+        volunteerCanOnlyBecomeParticipantAfterApplicationDeadline();
+    }    
+
+    private void limitOfActivityParticipantsReached() {
+        if (this.activity.getParticipations().size() == this.activity.getParticipantsNumberLimit()) {
+            throw new HEException(LIMIT_OF_ACTIVITY_PARTICIPANTS_REACHED, this.activity.getName());
+        }
+    }
+
+    private void volunteerCanParticipateInActivityOnlyOnce() {
+        if (this.volunteer.getParticipations().stream()
+            .anyMatch(participation -> participation.getActivity().equals(this.activity))) {
+                throw new HEException(VOLUNTEER_CAN_PARTICIPATE_IN_ACTIVITY_ONLY_ONCE, this.activity.getName());
+            }
+    }
+
+    private void volunteerCanOnlyBecomeParticipantAfterApplicationDeadline() {
+        if (this.activity.getApplicationDeadline().isBefore(this.acceptanceDate)) {
+            throw new HEException(VOLUNTEER_CAN_ONLY_BECOME_PARTICIPANT_AFTER_APPLICATION_DEADLINE);
+        }
+    }
+
 }

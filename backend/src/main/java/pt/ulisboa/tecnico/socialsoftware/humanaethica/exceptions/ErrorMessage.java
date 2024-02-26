@@ -44,7 +44,12 @@ public enum ErrorMessage {
     // Enrollment
     ENROLLMENT_MOTIVATION_SHOULD_HAVE_AT_LEAST_TEN_CHARACTERS("Motivation should have at least ten characters"),
     ENROLLMENT_VOLUNTEER_CAN_ONLY_ENROLL_IN_ACTIVITY_ONCE("Volunteer can only enroll in activity once"),
-    ENROLLMENT_VOLUNTEER_CANT_ENROLL_IN_ACTIVITY_AFTER_ENDING_DATE("Volunteer can't enroll in activity after end date");
+    ENROLLMENT_VOLUNTEER_CANT_ENROLL_IN_ACTIVITY_AFTER_ENDING_DATE("Volunteer can't enroll in activity after end date"),
+    
+    // Participation
+    LIMIT_OF_ACTIVITY_PARTICIPANTS_REACHED("Activity with name %s has reached its limit of participants"),
+    VOLUNTEER_CAN_PARTICIPATE_IN_ACTIVITY_ONLY_ONCE("Volunteer is already a participant in activity with name %s"),
+    VOLUNTEER_CAN_ONLY_BECOME_PARTICIPANT_AFTER_APPLICATION_DEADLINE("Volunteer can't become participant before application deadline");
 
     public final String label;
 
