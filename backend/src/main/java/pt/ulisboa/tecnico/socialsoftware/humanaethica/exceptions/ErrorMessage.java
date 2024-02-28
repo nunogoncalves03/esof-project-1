@@ -53,7 +53,8 @@ public enum ErrorMessage {
     VOLUNTEER_NOT_FOUND("Volunteer not found with id %d"),
 
     // Assessment
-    ASSESSMENT_REVIEW_INVALID("Review must have at least 10 characters");
+    ASSESSMENT_REVIEW_INVALID("Review must have at least 10 characters"),
+    ASSESSMENT_INSTITUTION_SHOULD_HAVE_ONE_FINISHED_ACTIVITY("Institution should have at least one finished activity");
 
     public final String label;
 
