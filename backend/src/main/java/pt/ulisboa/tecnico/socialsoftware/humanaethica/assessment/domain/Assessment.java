@@ -1,10 +1,12 @@
 package pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.domain;
 
+import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.ASSESSMENT_INSTITUTION_SHOULD_HAVE_ONE_FINISHED_ACTIVITY;
 import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.ASSESSMENT_REVIEW_INVALID;
 
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
@@ -42,6 +44,13 @@ public class Assessment {
         }
     }
     
+    private void institutionHasOneFinishedActivity() {
+        if (!this.institution.getActivities().stream()
+            .anyMatch(activity -> activity.getEndingDate().isBefore(LocalDateTime.now()))) {
+                throw new HEException(ASSESSMENT_INSTITUTION_SHOULD_HAVE_ONE_FINISHED_ACTIVITY);
+        }
+    }
+
     public void setReview(String review) {
         this.review = review;
     }
