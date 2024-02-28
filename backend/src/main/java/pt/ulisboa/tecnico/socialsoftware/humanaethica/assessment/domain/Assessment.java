@@ -1,8 +1,11 @@
 package pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.domain;
 
+import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.ASSESSMENT_REVIEW_INVALID;
+
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 
@@ -31,6 +34,12 @@ public class Assessment {
         setInstitution(institution);
         setReview(assessmentDto.getReview());
         setReviewDateTime(assessmentDto.getReviewDate());
+    }
+
+    private void reviewHasAtLeast10Characters() {
+        if (this.review == null || this.review.length() < 10) {
+            throw new HEException(ASSESSMENT_REVIEW_INVALID, this.review);
+        }
     }
     
     public void setReview(String review) {
