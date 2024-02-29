@@ -11,6 +11,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.dto.AssessmentD
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
 @Entity
 @Table(name = "assessment")
@@ -36,7 +37,7 @@ public class Assessment {
         setVolunteer(volunteer);
         setInstitution(institution);
         setReview(assessmentDto.getReview());
-        setReviewDateTime(assessmentDto.getReviewDate());
+        setReviewDateTime(DateHandler.toLocalDateTime(assessmentDto.getReviewDate()));
     }
 
     private void reviewHasAtLeast10Characters() {
