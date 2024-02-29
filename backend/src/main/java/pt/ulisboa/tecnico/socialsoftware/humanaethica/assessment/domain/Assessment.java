@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.dto.AssessmentDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
@@ -51,6 +52,8 @@ public class Assessment {
         }
     }
 
+    public void setId(Integer id) { this.id = id; }
+
     public void setReview(String review) {
         this.review = review;
     }
@@ -68,6 +71,8 @@ public class Assessment {
         this.volunteer = volunteer;
         volunteer.addAssessment(this);
     }
+
+    public Integer getId() { return this.id; }
 
     public String getReview() {
         return this.review;
