@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain;
 
 import jakarta.persistence.*;
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.domain.Assessment;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.domain.AuthUser;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.domain.Enrollment;
@@ -18,6 +19,9 @@ public class Volunteer extends User {
     
     @OneToMany(mappedBy = "volunteer", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Participation> participations = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "volunteer", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Assessment> assessments = new ArrayList<>();
 
     public Volunteer() {
     }
@@ -44,5 +48,17 @@ public class Volunteer extends User {
 
     public void addParticipation(Participation participation) {
         participations.add(participation);
+    }
+
+    public void setAssessments(List<Assessment> assessments) {
+        this.assessments = assessments;
+    }
+
+    public List<Assessment> getAssessments() {
+        return assessments;
+    }
+
+    public void addAssessment(Assessment assessment) {
+        this.assessments.add(assessment);
     }
 }
