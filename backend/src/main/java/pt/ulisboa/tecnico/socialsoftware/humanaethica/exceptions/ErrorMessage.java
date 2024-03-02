@@ -54,7 +54,8 @@ public enum ErrorMessage {
 
     // Assessment
     ASSESSMENT_REVIEW_INVALID("Review must have at least 10 characters"),
-    ASSESSMENT_INSTITUTION_SHOULD_HAVE_ONE_FINISHED_ACTIVITY("Institution should have at least one finished activity");
+    ASSESSMENT_INSTITUTION_SHOULD_HAVE_ONE_FINISHED_ACTIVITY("Institution should have at least one finished activity"),
+    ASSESSMENT_VOLUNTEER_ASSESSING_SAME_INSTITUTION_AGAIN("Volunteer can't assess institution more than once");
 
     public final String label;
 
