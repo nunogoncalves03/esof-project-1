@@ -95,7 +95,7 @@ public class Enrollment {
 
     private void volunteerCanOnlyEnrollInActivityOnce() {
         if (this.volunteer.getEnrollments().stream()
-                .anyMatch(enrollment -> enrollment.getActivity().equals(this.activity))) {
+                .anyMatch(enrollment -> enrollment != this && enrollment.getActivity().getId().equals(this.activity.getId()))) {
             throw new HEException(ENROLLMENT_VOLUNTEER_CAN_ONLY_ENROLL_IN_ACTIVITY_ONCE);
         }
     }

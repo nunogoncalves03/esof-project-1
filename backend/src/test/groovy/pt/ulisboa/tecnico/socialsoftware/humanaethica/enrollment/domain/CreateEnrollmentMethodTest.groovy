@@ -25,8 +25,12 @@ class CreateEnrollmentMethodTest extends SpockTest {
         enrollmentDto = new EnrollmentDto()
         enrollmentDto.motivation = ENROLLMENT_MOTIVATION_10_CHARACTERS
 
+        and: "activity"
+        activity.getId() >> 1
+
         and: "different activity with associated enrollment"
         otherActivity.getEndingDate() >> IN_TWO_DAYS
+        otherActivity.getId() >> 2
         otherEnrollment.getActivity() >> otherActivity
     }
 
