@@ -14,6 +14,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.dto.AuthPasswordDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.repository.AuthUserRepository
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.demo.DemoService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.demo.DemoUtils
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.EnrollmentService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.dto.EnrollmentDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.repository.EnrollmentRepository
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.InstitutionService
@@ -226,17 +227,8 @@ class SpockTest extends Specification {
     @Autowired
     EnrollmentRepository enrollmentRepository
 
-    // @Autowired
-    // EnrollmentService enrollmentService
-
-    protected EnrollmentDto createEnrollemntDto(motivation, enrollmentDateTime, activityDto, volunteerDto) {
-        def enrollmentDto = new EnrollmentDto()
-        enrollmentDto.setMotivation(motivation)
-        enrollmentDto.setEnrollmentDateTime(DateHandler.toISOString(enrollmentDateTime))
-        enrollmentDto.setActivity(activityDto)
-        enrollmentDto.setVolunteer(volunteerDto)
-        enrollmentDto
-    }
+    @Autowired
+    EnrollmentService enrollmentService
 
     // clean database
 
@@ -247,7 +239,6 @@ class SpockTest extends Specification {
         userRepository.deleteAll()
         institutionRepository.deleteAll()
         themeRepository.deleteAll()
+        enrollmentRepository.deleteAll()
     }
-
-
 }
