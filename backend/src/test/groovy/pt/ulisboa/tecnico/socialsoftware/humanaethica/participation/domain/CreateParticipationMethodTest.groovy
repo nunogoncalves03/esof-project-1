@@ -55,7 +55,6 @@ class CreateParticipationMethodTest extends SpockTest {
         given:
         activity.getParticipations() >> [otherParticipation]
         activity.getParticipantsNumberLimit() >> 1
-        activity.applicationDeadline >> ONE_DAY_AGO
 
         when:
         new Participation(activity, volunteer, participationDto)
@@ -63,6 +62,20 @@ class CreateParticipationMethodTest extends SpockTest {
         then:
         def exception = thrown(HEException)
         exception.getErrorMessage() == ErrorMessage.LIMIT_OF_ACTIVITY_PARTICIPANTS_REACHED
+    }
+
+    @Unroll
+    def "create participation and violate volunteer can only participate once in an activity invariant"() {
+        given:
+        otherParticipation.getActivity() >> activity
+        volunteer.getParticipations() >> [otherParticipation]
+
+        when:
+        new Participation(activity, volunteer, participationDto)
+
+        then:
+        def exception = thrown(HEException)
+        exception.getErrorMessage() == ErrorMessage.VOLUNTEER_CAN_PARTICIPATE_IN_ACTIVITY_ONLY_ONCE
     }
 
     @TestConfiguration
