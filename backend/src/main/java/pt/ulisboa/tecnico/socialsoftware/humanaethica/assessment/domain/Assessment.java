@@ -1,8 +1,5 @@
 package pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.domain;
 
-import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.ASSESSMENT_INSTITUTION_SHOULD_HAVE_ONE_FINISHED_ACTIVITY;
-import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.ASSESSMENT_REVIEW_INVALID;
-
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
@@ -12,6 +9,8 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
+
+import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.*;
 
 @Entity
 @Table(name = "assessment")
@@ -50,6 +49,13 @@ public class Assessment {
         if (!this.institution.getActivities().stream()
             .anyMatch(activity -> activity.getEndingDate().isBefore(LocalDateTime.now()))) {
                 throw new HEException(ASSESSMENT_INSTITUTION_SHOULD_HAVE_ONE_FINISHED_ACTIVITY);
+        }
+    }
+
+    private void volunteerAssessingInstitutionAgain() {
+        if (this.institution.getAssessments().stream()
+                .anyMatch(assessment -> assessment.getVolunteer().getId().equals(this.volunteer.getId()))) {
+            throw new HEException(ASSESSMENT_VOLUNTEER_ASSESSING_SAME_INSTITUTION_AGAIN);
         }
     }
 
