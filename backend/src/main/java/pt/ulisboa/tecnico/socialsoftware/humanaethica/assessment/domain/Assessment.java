@@ -37,6 +37,14 @@ public class Assessment {
         setInstitution(institution);
         setReview(assessmentDto.getReview());
         setReviewDateTime(DateHandler.toLocalDateTime(assessmentDto.getReviewDate()));
+
+        verifyInvariants();
+    }
+
+    private void verifyInvariants() {
+        reviewHasAtLeast10Characters();
+        institutionHasOneFinishedActivity();
+        volunteerAssessingInstitutionAgain();
     }
 
     private void reviewHasAtLeast10Characters() {
