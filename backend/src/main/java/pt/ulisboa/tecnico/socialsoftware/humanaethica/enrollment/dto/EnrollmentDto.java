@@ -9,8 +9,8 @@ public class EnrollmentDto {
     private Integer id;
     private String motivation;
     private String enrollmentDateTime;
-    private ActivityDto activity;
-    private UserDto volunteer;
+    private int activityId;
+    private int volunteerId;
 
     public EnrollmentDto() {
     }
@@ -19,8 +19,8 @@ public class EnrollmentDto {
         setId(enrollment.getId());
         setMotivation(enrollment.getMotivation());
         setEnrollmentDateTime(DateHandler.toISOString(enrollment.getEnrollmentDateTime()));
-        setActivity(new ActivityDto(enrollment.getActivity(), false));
-        setVolunteer(new UserDto(enrollment.getVolunteer()));
+        setActivityId(enrollment.getActivity().getId());
+        setVolunteerId(enrollment.getVolunteer().getId());
     }
 
     public Integer getId() {
@@ -47,20 +47,20 @@ public class EnrollmentDto {
       this.enrollmentDateTime = enrollmentDateTime;
     }
 
-    public ActivityDto getActivity() {
-      return activity;
+    public int getActivityId() {
+        return activityId;
     }
 
-    public void setActivity(ActivityDto activity) {
-      this.activity = activity;
+    public void setActivityId(int activityId) {
+        this.activityId = activityId;
     }
 
-    public UserDto getVolunteer() {
-      return volunteer;
+    public int getVolunteerId() {
+        return volunteerId;
     }
 
-    public void setVolunteer(UserDto volunteer) {
-      this.volunteer = volunteer;
+    public void setVolunteerId(int volunteerId) {
+        this.volunteerId = volunteerId;
     }
 
     @Override
@@ -69,8 +69,8 @@ public class EnrollmentDto {
                 "id=" + id +
                 ", motivation='" + motivation + '\'' +
                 ", enrollmentDateTime='" + enrollmentDateTime + '\'' +
-                ", activity=" + activity +
-                ", volunteer=" + volunteer +
+                ", activityId=" + activityId +
+                ", volunteerId=" + volunteerId +
                 '}';
     }
 }
