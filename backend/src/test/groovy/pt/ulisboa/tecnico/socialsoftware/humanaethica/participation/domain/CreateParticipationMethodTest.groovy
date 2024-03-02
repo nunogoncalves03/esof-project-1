@@ -18,6 +18,7 @@ import java.time.LocalDateTime
 class CreateParticipationMethodTest extends SpockTest {
     Activity activity = Mock()
     Volunteer volunteer = Mock()
+    Participation otherParticipation = Mock()
     Integer rating = 1
     def participationDto
 
@@ -49,6 +50,20 @@ class CreateParticipationMethodTest extends SpockTest {
         1 * volunteer.addParticipation(_)
     }
 
+    @Unroll
+    def "create participation and violate participants limit invariant"() {
+        given:
+        activity.getParticipations() >> [otherParticipation]
+        activity.getParticipantsNumberLimit() >> 1
+        activity.applicationDeadline >> ONE_DAY_AGO
+
+        when:
+        new Participation(activity, volunteer, participationDto)
+
+        then:
+        def exception = thrown(HEException)
+        exception.getErrorMessage() == ErrorMessage.LIMIT_OF_ACTIVITY_PARTICIPANTS_REACHED
+    }
 
     @TestConfiguration
     static class LocalBeanConfiguration extends BeanConfiguration {}
