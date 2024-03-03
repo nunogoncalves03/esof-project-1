@@ -37,7 +37,7 @@ public class EnrollmentService {
         return enrollmentRepository.getEnrollmentsByActivityId(activityId)
                 .stream()
                 .map(enrollment -> new EnrollmentDto(enrollment))
-                .sorted(Comparator.comparing(dto -> LocalDateTime.parse(dto.getEnrollmentDateTime())))
+                .sorted(Comparator.comparing(EnrollmentDto::getEnrollmentDateTime))
                 .toList();
     }
 
