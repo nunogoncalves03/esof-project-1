@@ -11,6 +11,7 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.domain.AuthUser;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.dto.EnrollmentDto;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/enrollments")
@@ -19,6 +20,11 @@ public class EnrollmentController {
     private EnrollmentService enrollmentService;
 
     private static final Logger logger = LoggerFactory.getLogger(EnrollmentService.class);
+
+    @GetMapping("/{activityId}")
+    public List<EnrollmentDto> getActivityEnrollments(@PathVariable Integer activityId) {
+        return enrollmentService.getEnrollmentsByActivity(activityId);
+    }
 
     @PostMapping("/{activityId}")
     @PreAuthorize("(hasRole('ROLE_VOLUNTEER'))")
