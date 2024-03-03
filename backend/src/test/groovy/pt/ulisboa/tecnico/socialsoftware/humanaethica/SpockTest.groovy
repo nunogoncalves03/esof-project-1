@@ -251,6 +251,9 @@ class SpockTest extends Specification {
 
     // assessment
     public static final String REVIEW_10_CHARACTERS = "0123456789"
+    public static final String REVIEW_10_SPACES = "          "
+    public static final String REVIEW_0_CHARACTERS = ""
+    public static final String REVIEW_5_CHARACTERS = "01234"
 
     // clean database
 
