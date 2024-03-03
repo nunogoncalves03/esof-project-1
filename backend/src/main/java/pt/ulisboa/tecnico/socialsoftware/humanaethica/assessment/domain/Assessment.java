@@ -48,7 +48,7 @@ public class Assessment {
     }
 
     private void reviewHasAtLeast10Characters() {
-        if (this.review == null || this.review.length() < 10) {
+        if (this.review == null || this.review.trim().length() < 10) {
             throw new HEException(ASSESSMENT_REVIEW_INVALID);
         }
     }
