@@ -78,6 +78,18 @@ class CreateParticipationMethodTest extends SpockTest {
         exception.getErrorMessage() == ErrorMessage.VOLUNTEER_CAN_PARTICIPATE_IN_ACTIVITY_ONLY_ONCE
     }
 
+    def "create participation and violate participation before activity deadline invariant"() {
+        given:
+        activity.applicationDeadline >> IN_ONE_DAY
+
+        when:
+        new Participation(activity, volunteer, participationDto)
+
+        then:
+        def exception = thrown(HEException)
+        exception.getErrorMessage() == ErrorMessage.VOLUNTEER_CAN_ONLY_BECOME_PARTICIPANT_AFTER_APPLICATION_DEADLINE
+    }
+
     @TestConfiguration
     static class LocalBeanConfiguration extends BeanConfiguration {}
 }
