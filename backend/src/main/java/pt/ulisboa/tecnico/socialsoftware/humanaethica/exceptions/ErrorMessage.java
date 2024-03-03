@@ -49,7 +49,9 @@ public enum ErrorMessage {
     // Participation
     LIMIT_OF_ACTIVITY_PARTICIPANTS_REACHED("Activity with name %s has reached its limit of participants"),
     VOLUNTEER_CAN_PARTICIPATE_IN_ACTIVITY_ONLY_ONCE("Volunteer is already a participant in activity with name %s"),
-    VOLUNTEER_CAN_ONLY_BECOME_PARTICIPANT_AFTER_APPLICATION_DEADLINE("Volunteer can't become participant before application deadline");
+    VOLUNTEER_CAN_ONLY_BECOME_PARTICIPANT_AFTER_APPLICATION_DEADLINE("Volunteer can't become participant before application deadline"),
+
+    VOLUNTEER_NOT_FOUND("Volunteer not found with id %d");
 
     public final String label;
 
