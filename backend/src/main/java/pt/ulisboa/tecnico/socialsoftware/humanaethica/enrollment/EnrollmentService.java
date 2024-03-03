@@ -13,6 +13,10 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.repository.UserRepository;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
+
 import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.ACTIVITY_NOT_FOUND;
 import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.USER_NOT_FOUND;
 
@@ -24,6 +28,18 @@ public class EnrollmentService {
     ActivityRepository activityRepository;
     @Autowired
     UserRepository userRepository;
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public List<EnrollmentDto> getEnrollmentsByActivity(Integer activityId) {
+        if (activityId == null) throw new HEException(ACTIVITY_NOT_FOUND);
+        Activity activity = activityRepository.findById(activityId).orElseThrow(() -> new HEException(ACTIVITY_NOT_FOUND, activityId));
+
+        return enrollmentRepository.getEnrollmentsByActivityId(activityId)
+                .stream()
+                .map(enrollment -> new EnrollmentDto(enrollment))
+                .sorted(Comparator.comparing(dto -> LocalDateTime.parse(dto.getEnrollmentDateTime())))
+                .toList();
+    }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public EnrollmentDto createEnrollment(Integer userId, Integer activityId, EnrollmentDto enrollmentDto) {
