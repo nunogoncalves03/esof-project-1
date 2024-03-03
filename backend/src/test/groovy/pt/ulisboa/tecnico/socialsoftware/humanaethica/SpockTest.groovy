@@ -249,6 +249,9 @@ class SpockTest extends Specification {
     @Autowired 
     ParticipationService participationService
 
+    // assessment
+    public static final String REVIEW_10_CHARACTERS = "0123456789"
+
     // clean database
 
     def deleteAll() {
