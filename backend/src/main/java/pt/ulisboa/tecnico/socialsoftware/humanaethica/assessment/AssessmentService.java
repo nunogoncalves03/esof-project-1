@@ -46,7 +46,7 @@ public class AssessmentService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public AssessmentDto registerAssessment(Integer institutionId, Integer volunteerId, AssessmentDto assessmentDto) {
+    public AssessmentDto createAssessment(Integer institutionId, Integer volunteerId, AssessmentDto assessmentDto) {
         if (volunteerId == null) throw new HEException(USER_NOT_FOUND);
         Volunteer volunteer = (Volunteer) userRepository.findById(volunteerId).orElseThrow(() -> new HEException(USER_NOT_FOUND, volunteerId));
 
