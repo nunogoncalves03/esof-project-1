@@ -50,7 +50,7 @@ public enum ErrorMessage {
     LIMIT_OF_ACTIVITY_PARTICIPANTS_REACHED("Activity with name %s has reached its limit of participants"),
     VOLUNTEER_CAN_PARTICIPATE_IN_ACTIVITY_ONLY_ONCE("Volunteer is already a participant in activity with name %s"),
     VOLUNTEER_CAN_ONLY_BECOME_PARTICIPANT_AFTER_APPLICATION_DEADLINE("Volunteer can't become participant before application deadline"),
-    RATING_SHOULD_BE_OF_VALID_TYPE("Rating value needs to be of a valid type"),
+    RATING_SHOULD_BE_OF_INTEGER_TYPE("Rating value needs to be an integer"),
 
     VOLUNTEER_NOT_FOUND("Volunteer not found with id %d");
 

@@ -32,7 +32,7 @@ public class ParticipationService {
         if(activityId == null) throw new HEException(ACTIVITY_NOT_FOUND);
         Activity activity = activityRepository.findById(activityId).orElseThrow(() -> new HEException(ACTIVITY_NOT_FOUND, activityId));
 
-        Integer volunteerId = participationDto.getVolunteer().getId();
+        Integer volunteerId = participationDto.getVolunteerId();
 
         if(volunteerId == null) throw new HEException(VOLUNTEER_NOT_FOUND);
         Volunteer volunteer = (Volunteer) userRepository.findById(volunteerId).orElseThrow(() -> new HEException(VOLUNTEER_NOT_FOUND, volunteerId));

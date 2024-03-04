@@ -21,6 +21,8 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.UserService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.ThemeService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.Mailer
 
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.ParticipationService
+
 @TestConfiguration
 @PropertySource("classpath:application-test.properties")
 class BeanConfiguration {
@@ -77,6 +79,11 @@ class BeanConfiguration {
     @Bean
     EnrollmentService enrollmentService() {
         return new EnrollmentService()
+    }
+
+    @Bean
+    ParticipationService participationService() {
+        return new ParticipationService()
     }
 
     @Bean

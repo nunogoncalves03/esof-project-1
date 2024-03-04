@@ -244,8 +244,8 @@ class SpockTest extends Specification {
     @Autowired
     ParticipationRepository participationRepository
 
-    //@Autowired 
-    //ParticipationService participationService
+    @Autowired 
+    ParticipationService participationService
 
     protected ParticipationDto createParticipationDto(rating, acceptanceDate, volunteerDto, activityDto) {
         def participationDto = new ParticipationDto()

@@ -36,7 +36,7 @@ class CreateParticipationMethodTest extends SpockTest {
         given:
         volunteer.getParticipations() >> []
         activity.getParticipations() >> []
-        activity.getParticipantsNumberLimit() >> 2
+        activity.getParticipantsNumberLimit() >> 1
         activity.applicationDeadline >> ONE_DAY_AGO
 
         when:
@@ -57,7 +57,8 @@ class CreateParticipationMethodTest extends SpockTest {
     def "create participation and violate participants limit invariant"() {
         given:
         activity.getParticipations() >> [otherParticipation]
-        activity.getParticipantsNumberLimit() >> 1
+        activity.getParticipantsNumberLimit() >> 0
+        activity.applicationDeadline >> ONE_DAY_AGO
 
         when:
         new Participation(activity, volunteer, participationDto)
@@ -72,6 +73,8 @@ class CreateParticipationMethodTest extends SpockTest {
         given:
         otherParticipation.getActivity() >> activity
         volunteer.getParticipations() >> [otherParticipation]
+        activity.applicationDeadline >> ONE_DAY_AGO
+        activity.getParticipantsNumberLimit() >> 1
 
         when:
         new Participation(activity, volunteer, participationDto)
