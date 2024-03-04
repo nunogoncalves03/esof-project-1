@@ -8,6 +8,8 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.domain.Assessment
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.domain.AuthNormalUser
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.domain.AuthUser
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.User
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer
@@ -58,6 +60,15 @@ public class GetAssessmentsByInstitutionServiceTest extends SpockTest {
         result.size() == 2
         result.get(0).getReview() == REVIEW_10_CHARACTERS
         result.get(1).getReview() == REVIEW_20_CHARACTERS
+    }
+
+    def "get assessments of institution that does not exist"() {
+        when:
+        assessmentService.getAssessmentsByInstitution(null)
+
+        then:
+        def error = thrown(HEException)
+        error.getErrorMessage() == ErrorMessage.INSTITUTION_NOT_FOUND
     }
 
     @TestConfiguration
