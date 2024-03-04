@@ -8,6 +8,10 @@ import org.springframework.web.reactive.function.client.WebClient
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.ActivityService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.repository.ActivityRepository
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.AssessmentService
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.domain.Assessment
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.dto.AssessmentDto
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.repository.AssessmentRepository
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.AuthUserService
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.dto.AuthDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.auth.dto.AuthPasswordDto
@@ -51,6 +55,7 @@ class SpockTest extends Specification {
 
     // dates
 
+    public static final LocalDateTime THREE_DAYS_AGO = DateHandler.now().minusDays(3)
     public static final LocalDateTime TWO_DAYS_AGO = DateHandler.now().minusDays(2)
     public static final LocalDateTime ONE_DAY_AGO = DateHandler.now().minusDays(1)
     public static final LocalDateTime NOW = DateHandler.now()
@@ -250,10 +255,25 @@ class SpockTest extends Specification {
     ParticipationService participationService
 
     // assessment
+
     public static final String REVIEW_10_CHARACTERS = "0123456789"
+    public static final String REVIEW_20_CHARACTERS = "98765432100987654321"
     public static final String REVIEW_10_SPACES = "          "
     public static final String REVIEW_0_CHARACTERS = ""
     public static final String REVIEW_5_CHARACTERS = "01234"
+
+    @Autowired
+    AssessmentRepository assessmentRepository
+
+    @Autowired
+    AssessmentService assessmentService
+
+    protected AssessmentDto createAssessmentDto(review, date) {
+        def assessmentDto = new AssessmentDto()
+        assessmentDto.setReview(review)
+        assessmentDto.setReviewDate(DateHandler.toISOString(date))
+        assessmentDto
+    }
 
     // clean database
 
