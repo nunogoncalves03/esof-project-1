@@ -3,8 +3,10 @@ package pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.webservice
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.WebClientResponseException
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.SpockTest
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.dto.AssessmentDto
@@ -71,6 +73,50 @@ class RegisterAssessmentWebServiceIT extends SpockTest {
         assessment.getReviewDate().withNano(0) == TWO_DAYS_AGO.withNano(0)
         assessment.getInstitution().getId() == institution.getId()
         assessment.volunteer.getId() == user.getId()
+
+        cleanup:
+        deleteAll()
+    }
+
+    def "login as member, and create an assessment"() {
+        given: "a member"
+        demoMemberLogin()
+
+        when: "the member registers the assessment"
+        def response = webClient.post()
+                .uri('/assessments/' + institution.getId())
+                .headers(httpHeaders -> httpHeaders.putAll(headers))
+                .bodyValue(assessmentDto)
+                .retrieve()
+                .bodyToMono(AssessmentDto.class)
+                .block()
+
+        then: "an error is returned"
+        def error = thrown(WebClientResponseException)
+        error.statusCode == HttpStatus.FORBIDDEN
+        assessmentRepository.count() == 0
+
+        cleanup:
+        deleteAll()
+    }
+
+    def "login as admin, and create an assessment"() {
+        given: "a admin"
+        demoAdminLogin()
+
+        when: "the admin registers the assessment"
+        def response = webClient.post()
+                .uri('/assessments/' + institution.getId())
+                .headers(httpHeaders -> httpHeaders.putAll(headers))
+                .bodyValue(assessmentDto)
+                .retrieve()
+                .bodyToMono(AssessmentDto.class)
+                .block()
+
+        then: "an error is returned"
+        def error = thrown(WebClientResponseException)
+        error.statusCode == HttpStatus.FORBIDDEN
+        assessmentRepository.count() == 0
 
         cleanup:
         deleteAll()
