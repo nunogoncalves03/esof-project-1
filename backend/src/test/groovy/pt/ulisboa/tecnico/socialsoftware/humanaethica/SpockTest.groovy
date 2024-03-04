@@ -247,14 +247,13 @@ class SpockTest extends Specification {
     @Autowired 
     ParticipationService participationService
 
-    protected ParticipationDto createParticipationDto(rating, acceptanceDate, volunteerDto, activityDto) {
+    protected ParticipationDto createParticipationDto(rating, acceptanceDate, volunteerId, activityId) {
         def participationDto = new ParticipationDto()
         participationDto.setRating(rating)
         participationDto.setAcceptanceDate(DateHandler.toISOString(acceptanceDate))
-        participationDto.setVolunteer(volunteerDto)
-        participationDto.setActivity(activityDto)
+        participationDto.setVolunteerId(volunteerId)
+        participationDto.setActivityId(activityId)
         participationDto
-
     }
 
     // clean database
