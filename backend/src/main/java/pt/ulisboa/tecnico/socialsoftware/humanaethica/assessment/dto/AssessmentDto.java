@@ -66,7 +66,9 @@ public class AssessmentDto {
     }
 
     public String getVolunteerName() {
-        return volunteer.getName();
+        if (volunteer != null)
+            return volunteer.getName();
+        return null;
     }
 
     public void setVolunteer(UserDto volunteer) {
