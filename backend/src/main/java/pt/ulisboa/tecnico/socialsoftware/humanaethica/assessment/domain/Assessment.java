@@ -62,7 +62,7 @@ public class Assessment {
 
     private void volunteerAssessingInstitutionAgain() {
         if (this.institution.getAssessments().stream()
-                .anyMatch(assessment -> assessment.getVolunteer().getId().equals(this.volunteer.getId()))) {
+                .anyMatch(assessment -> assessment != this && assessment.getVolunteer().getId().equals(this.volunteer.getId()))) {
             throw new HEException(ASSESSMENT_VOLUNTEER_ASSESSING_SAME_INSTITUTION_AGAIN);
         }
     }
