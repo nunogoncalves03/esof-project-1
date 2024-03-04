@@ -1,16 +1,14 @@
 package pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto;
 
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.domain.Participation;
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.dto.UserDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
 public class ParticipationDto {
     private Integer id;
     private Integer rating;
     private String acceptanceDate;
-    private UserDto volunteer;
-    private ActivityDto activity;
+    private Integer volunteerId;
+    private Integer activityId;
 
     public ParticipationDto() {
     }
@@ -18,8 +16,8 @@ public class ParticipationDto {
     public ParticipationDto(Participation participation) {
         setId(participation.getId());
         setAcceptanceDate(DateHandler.toISOString(participation.getAcceptanceDate()));
-        setVolunteer(new UserDto(participation.getVolunteer()));
-        setActivity(new ActivityDto(participation.getActivity(), false));
+        setVolunteerId(participation.getVolunteer().getId());
+        setActivityId(participation.getActivity().getId());
 
         if (participation.getRating() != null) {
             setRating(participation.getRating());
@@ -50,20 +48,20 @@ public class ParticipationDto {
         this.acceptanceDate = acceptanceDate;
     }
 
-    public UserDto getVolunteer() {
-        return volunteer;
+    public Integer getVolunteerId() {
+        return volunteerId;
     }
 
-    public void setVolunteer(UserDto volunteer) {
-        this.volunteer = volunteer;
+    public void setVolunteerId(Integer volunteerId) {
+        this.volunteerId = volunteerId;
     }
 
-    public ActivityDto getActivity() {
-        return activity;
+    public Integer getActivityId() {
+        return activityId;
     }
 
-    public void setActivity(ActivityDto activity) {
-        this.activity = activity;
+    public void setActivityId(Integer activityId) {
+        this.activityId = activityId;
     }
 
     @Override
@@ -72,8 +70,8 @@ public class ParticipationDto {
                 "id=" + id +
                 ", rating='" + rating + '\'' +
                 ", acceptanceDate='" + acceptanceDate + '\'' +
-                ", activity=" + activity +
-                ", volunteer=" + volunteer +
+                ", activity=" + activityId +
+                ", volunteer=" + volunteerId +
                 '}';
     }
 }
