@@ -37,13 +37,13 @@ class CreateAssessmentMethodTest extends SpockTest {
 
         and: "a different assessment with an associated volunteer"
         otherAssessment.getVolunteer() >> otherVolunteer
-        otherVolunteer.getId() >> 2
     }
 
     def "create assessment with valid review, valid volunteer and valid institution"() {
         given:
         activity.getEndingDate() >> TWO_DAYS_AGO
         volunteer.getId() >> 1
+        otherVolunteer.getId() >> 2
 
         when:
         def result = new Assessment(assessmentDto, institution, volunteer)
@@ -62,6 +62,7 @@ class CreateAssessmentMethodTest extends SpockTest {
         given:
         activity.getEndingDate() >> TWO_DAYS_AGO
         volunteer.getId() >> 1
+        otherVolunteer.getId() >> 2
 
         and: "an assessmentDto"
         assessmentDto.setReview(review)
@@ -78,10 +79,26 @@ class CreateAssessmentMethodTest extends SpockTest {
     }
 
     @Unroll
+    def "create assessment and violate volunteer cant assess the same institution more than once"() {
+        given: "otherVolunteer with same unique id as volunteer"
+        volunteer.getId() >> 1
+        otherVolunteer.getId() >> 1
+        activity.getEndingDate() >> TWO_DAYS_AGO
+
+        when:
+        new Assessment(assessmentDto, institution, volunteer)
+
+        then:
+        def error = thrown(HEException)
+        error.getErrorMessage() == ErrorMessage.ASSESSMENT_VOLUNTEER_ASSESSING_SAME_INSTITUTION_AGAIN
+    }
+
+    @Unroll
     def "create assessment and violate institution has at least one finished activity"() {
         given:
         activity.getEndingDate() >> date
         volunteer.getId() >> 1
+        otherVolunteer.getId() >> 2
 
         when:
         new Assessment(assessmentDto, institution, volunteer)
