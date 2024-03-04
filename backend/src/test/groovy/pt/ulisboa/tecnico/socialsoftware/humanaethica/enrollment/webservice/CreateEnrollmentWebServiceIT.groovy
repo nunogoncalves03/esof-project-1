@@ -57,8 +57,6 @@ class CreateEnrollmentWebServiceIT extends SpockTest {
         then: "check response data"
         response.motivation == ENROLLMENT_MOTIVATION_10_CHARACTERS
         response.enrollmentDateTime != null
-        response.activityId == activityId
-        response.volunteerId == volunteerId
         and: 'check database data'
         enrollmentRepository.count() == 1
 

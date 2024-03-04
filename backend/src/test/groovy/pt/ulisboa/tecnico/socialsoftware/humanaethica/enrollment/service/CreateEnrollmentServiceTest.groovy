@@ -39,8 +39,6 @@ class CreateEnrollmentServiceTest extends SpockTest {
         then: "the returned data is correct"
         result.motivation == ENROLLMENT_MOTIVATION_10_CHARACTERS
         result.enrollmentDateTime != null
-        result.activityId == activity.id
-        result.volunteerId == volunteer.id
         and: "the enrollment is saved in the database"
         enrollmentRepository.findAll().size() == 1
         and: "the stored data is correct"

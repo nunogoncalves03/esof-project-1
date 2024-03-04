@@ -1,16 +1,12 @@
 package pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.dto;
 
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.dto.ActivityDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.domain.Enrollment;
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.dto.UserDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler;
 
 public class EnrollmentDto {
     private Integer id;
     private String motivation;
     private String enrollmentDateTime;
-    private int activityId;
-    private int volunteerId;
 
     public EnrollmentDto() {
     }
@@ -19,48 +15,30 @@ public class EnrollmentDto {
         setId(enrollment.getId());
         setMotivation(enrollment.getMotivation());
         setEnrollmentDateTime(DateHandler.toISOString(enrollment.getEnrollmentDateTime()));
-        setActivityId(enrollment.getActivity().getId());
-        setVolunteerId(enrollment.getVolunteer().getId());
     }
 
     public Integer getId() {
-      return id;
+        return id;
     }
 
     public void setId(Integer id) {
-      this.id = id;
+        this.id = id;
     }
 
     public String getMotivation() {
-      return motivation;
+        return motivation;
     }
 
     public void setMotivation(String motivation) {
-      this.motivation = motivation;
+        this.motivation = motivation;
     }
 
     public String getEnrollmentDateTime() {
-      return enrollmentDateTime;
+        return enrollmentDateTime;
     }
 
     public void setEnrollmentDateTime(String enrollmentDateTime) {
-      this.enrollmentDateTime = enrollmentDateTime;
-    }
-
-    public int getActivityId() {
-        return activityId;
-    }
-
-    public void setActivityId(int activityId) {
-        this.activityId = activityId;
-    }
-
-    public int getVolunteerId() {
-        return volunteerId;
-    }
-
-    public void setVolunteerId(int volunteerId) {
-        this.volunteerId = volunteerId;
+        this.enrollmentDateTime = enrollmentDateTime;
     }
 
     @Override
@@ -69,8 +47,6 @@ public class EnrollmentDto {
                 "id=" + id +
                 ", motivation='" + motivation + '\'' +
                 ", enrollmentDateTime='" + enrollmentDateTime + '\'' +
-                ", activityId=" + activityId +
-                ", volunteerId=" + volunteerId +
                 '}';
     }
 }

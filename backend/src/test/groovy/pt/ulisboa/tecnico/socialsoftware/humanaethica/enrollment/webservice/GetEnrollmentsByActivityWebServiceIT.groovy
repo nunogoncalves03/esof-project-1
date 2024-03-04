@@ -81,8 +81,6 @@ class GetEnrollmentsByActivityWebServiceIT extends SpockTest {
         response.size() == 1
         response.get(0).motivation == ENROLLMENT_MOTIVATION_1
         response.get(0).enrollmentDateTime != null
-        response.get(0).activityId == activity1.getId()
-        response.get(0).volunteerId == volunteerId
 
         cleanup:
         deleteAll()
