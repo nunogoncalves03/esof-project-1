@@ -27,6 +27,9 @@ class CreateParticipationMethodTest extends SpockTest {
         participationDto = new ParticipationDto()
         participationDto.rating = PARTICIPATION_RATING_1
         participationDto.acceptanceDate = DateHandler.toISOString(NOW);
+
+        and: "activity"
+        activity.getId() >> 1
     }
 
     def "create participation in empty activity with rating, valid acceptance date and no previous participation of volunteer"() {

@@ -95,7 +95,7 @@ public class Participation {
 
     private void volunteerCanParticipateInActivityOnlyOnce() {
         if (this.volunteer.getParticipations() != null && this.volunteer.getParticipations().stream()
-            .anyMatch(participation -> participation.getActivity().equals(this.activity))) {
+            .anyMatch(participation -> participation != this && participation.getActivity().getId().equals(this.activity.getId()))) {
                 throw new HEException(VOLUNTEER_CAN_PARTICIPATE_IN_ACTIVITY_ONLY_ONCE, this.activity.getName());
             }
     }

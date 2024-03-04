@@ -16,6 +16,7 @@ public class ParticipationDto {
     }
 
     public ParticipationDto(Participation participation) {
+        setId(participation.getId());
         setAcceptanceDate(DateHandler.toISOString(participation.getAcceptanceDate()));
         setVolunteer(new UserDto(participation.getVolunteer()));
         setActivity(new ActivityDto(participation.getActivity(), false));
