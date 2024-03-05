@@ -7,9 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.SpockTest
 import org.springframework.web.reactive.function.client.WebClient
-import org.springframework.web.reactive.function.client.WebClientResponseException
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler
+import org.springframework.web.reactive.function.client.WebClientResponseException
 
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto.ParticipationDto
 
@@ -18,10 +17,11 @@ class CreateParticipationWebServiceIT extends SpockTest {
     @LocalServerPort
     private int port
 
-    def ParticipationDto
+    def participationDto
     def activity
     def activityId
     def volunteerId
+    def institution
 
     def setup() {
         deleteAll()
@@ -30,17 +30,17 @@ class CreateParticipationWebServiceIT extends SpockTest {
         headers = new HttpHeaders()
         headers.setContentType(MediaType.APPLICATION_JSON)
 
-        def institution = institutionService.getDemoInstitution()
+        institution = institutionService.getDemoInstitution()
         def activityDto = createActivityDto(ACTIVITY_NAME_1,ACTIVITY_REGION_1,1,ACTIVITY_DESCRIPTION_1,
-                IN_ONE_DAY,IN_TWO_DAYS,IN_THREE_DAYS, [])
+                ONE_DAY_AGO,IN_TWO_DAYS,IN_THREE_DAYS, [])
+
         activity = new Activity(activityDto, institution, [])
         activityRepository.save(activity)
 
         activityId = activity.getId()
         volunteerId = authUserService.loginDemoVolunteerAuth().getUser().getId()
 
-        participationDto = new ParticipationDto()
-        participationDto.setRating(PARTICIPATION_RATING_1)
+        participationDto = createParticipationDto(PARTICIPATION_RATING_1, NOW, volunteerId, activityId)
     }
 
     def "login as member, and create a participation"() {
@@ -77,11 +77,12 @@ class CreateParticipationWebServiceIT extends SpockTest {
     def "login as member, and create a participation with error"() {
         given: "a member"
         demoMemberLogin()
-        and: "a participation with a deadline in the future"
-        participationDto.acceptanceDate = DateHandler.toISOString(IN_ONE_DAY)
+
+        and: "an activity with no participants limit"
+        participationDto.setVolunteerId(null)
 
         when:
-        def response = webClient.post()
+        webClient.post()
                 .uri('/participations/' + activityId)
                 .headers(httpHeaders -> httpHeaders.putAll(headers))
                 .bodyValue(participationDto)
@@ -103,7 +104,7 @@ class CreateParticipationWebServiceIT extends SpockTest {
         demoVolunteerLogin()
 
         when:
-        def response = webClient.post()
+        webClient.post()
                 .uri('/participations/' + activityId)
                 .headers(httpHeaders -> httpHeaders.putAll(headers))
                 .bodyValue(participationDto)
@@ -125,7 +126,7 @@ class CreateParticipationWebServiceIT extends SpockTest {
         demoAdminLogin()
 
         when:
-        def response = webClient.post()
+        webClient.post()
                 .uri('/participations/' + activityId)
                 .headers(httpHeaders -> httpHeaders.putAll(headers))
                 .bodyValue(participationDto)
