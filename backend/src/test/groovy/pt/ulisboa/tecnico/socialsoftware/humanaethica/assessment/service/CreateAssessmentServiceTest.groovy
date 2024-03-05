@@ -53,6 +53,29 @@ class CreateAssessmentServiceTest extends SpockTest {
         storedAssessment.volunteer.id == volunteer.id
     }
 
+    @Unroll
+    def 'invalid arguments: review=#review | institutionId=#institutionId | volunteerId=#volunteerId'() {
+        given: "an assessment dto"
+        def assessmentDto = createAssessmentDto(review, NOW)
+
+        when:
+        assessmentService.createAssessment(getInstitutionId(institutionId), getVolunteerId(volunteerId), assessmentDto)
+
+        then:
+        def error = thrown(HEException)
+        error.getErrorMessage() == errorMessage
+        and: "no assessment is stored in the database"
+        assessmentRepository.findAll().size() == 0
+
+        where:
+        review               | institutionId | volunteerId || errorMessage
+        REVIEW_0_CHARACTERS  | EXIST         | EXIST       || ErrorMessage.ASSESSMENT_REVIEW_INVALID
+        REVIEW_10_CHARACTERS | null          | EXIST       || ErrorMessage.INSTITUTION_NOT_FOUND
+        REVIEW_10_CHARACTERS | NO_EXIST      | EXIST       || ErrorMessage.INSTITUTION_NOT_FOUND
+        REVIEW_10_CHARACTERS | EXIST         | null        || ErrorMessage.USER_NOT_FOUND
+        REVIEW_10_CHARACTERS | EXIST         | NO_EXIST    || ErrorMessage.USER_NOT_FOUND
+    }
+
     def getVolunteerId(volunteerId){
         if (volunteerId == EXIST)
             return volunteer.id
