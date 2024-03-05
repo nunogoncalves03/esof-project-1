@@ -11,6 +11,8 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler
 
+import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto.ParticipationDto
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CreateParticipationWebServiceIT extends SpockTest {
     @LocalServerPort
@@ -37,7 +39,9 @@ class CreateParticipationWebServiceIT extends SpockTest {
         activityId = activity.getId()
         volunteerId = authUserService.loginDemoVolunteerAuth().getUser().getId()
 
-        participationDto = createParticipationDto(PARTICIPATION_RATING_1, ONE_DAY_AGO, volunteerId, activityId)
+        //participationDto = createParticipationDto(PARTICIPATION_RATING_1, ONE_DAY_AGO, volunteerId, activityId)
+        participationDto = new ParticipationDto()
+        participationDto.setRating(PARTICIPATION_RATING_1)
     }
 
     def "login as member, and create a participation"() {
