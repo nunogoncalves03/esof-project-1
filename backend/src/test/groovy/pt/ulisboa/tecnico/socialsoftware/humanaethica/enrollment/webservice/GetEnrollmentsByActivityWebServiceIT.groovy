@@ -65,7 +65,7 @@ class GetEnrollmentsByActivityWebServiceIT extends SpockTest {
     }
 
     def "login as institution member and get enrollments by activity"() {
-        given:
+        given: "an institution member"
         demoMemberLogin()
 
         when:
@@ -88,7 +88,7 @@ class GetEnrollmentsByActivityWebServiceIT extends SpockTest {
 
     @Unroll
     def "login as a member that doesn't belong to the institution and get enrollments by activity"() {
-        given:
+        given: "a member"
         demoMemberLogin()
 
         when:
@@ -112,7 +112,7 @@ class GetEnrollmentsByActivityWebServiceIT extends SpockTest {
     }
 
     def "login as a volunteer and get enrollments by activity"() {
-        given:
+        given: "a volunteer"
         demoVolunteerLogin()
 
         when:
@@ -133,7 +133,7 @@ class GetEnrollmentsByActivityWebServiceIT extends SpockTest {
     }
 
     def "login as an admin and get enrollments by activity"() {
-        given:
+        given: "an admin"
         demoAdminLogin()
 
         when:

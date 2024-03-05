@@ -117,7 +117,7 @@ class CreateEnrollmentWebServiceIT extends SpockTest {
     }
 
     def "login as admin, and create an enrollment"() {
-        given: 'a member'
+        given: 'an admin'
         demoAdminLogin()
 
         when: 'the admin creates the enrollment'
