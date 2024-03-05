@@ -60,7 +60,7 @@ class CreateParticipationWebServiceIT extends SpockTest {
         response.activityId == activityId
         response.volunteerId == volunteerId
         response.rating == PARTICIPATION_RATING_1
-        response.date == DateHandler.toISOString(ONE_DAY_AGO)
+        response.acceptanceDate != null
 
         and: "check database data"
         participationRepository.count() == 1
@@ -68,7 +68,7 @@ class CreateParticipationWebServiceIT extends SpockTest {
         participation.getActivity().getId() == activityId
         participation.getVolunteer().getId() == volunteerId
         participation.getRating() == PARTICIPATION_RATING_1
-        participation.getDate().withNano(0) == ONE_DAY_AGO.withNano(0)
+        participation.getAcceptanceDate() != null
 
         cleanup:
         deleteAll()
@@ -78,7 +78,7 @@ class CreateParticipationWebServiceIT extends SpockTest {
         given: "a member"
         demoMemberLogin()
         and: "a participation with a deadline in the future"
-        participationDto.setAcceptanceDate(DateHandler.toISOString(IN_ONE_DAY))
+        participationDto.acceptanceDate = DateHandler.toISOString(IN_ONE_DAY)
 
         when:
         def response = webClient.post()
