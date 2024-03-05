@@ -20,7 +20,7 @@ public class Volunteer extends User {
     @OneToMany(mappedBy = "volunteer", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Participation> participations = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "volunteer", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "volunteer", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Assessment> assessments = new ArrayList<>();
 
     public Volunteer() {
