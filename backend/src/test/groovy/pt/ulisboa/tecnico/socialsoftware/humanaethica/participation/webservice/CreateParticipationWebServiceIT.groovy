@@ -75,7 +75,7 @@ class CreateParticipationWebServiceIT extends SpockTest {
         given: "a member"
         demoMemberLogin()
         and: "a participation with a deadline in the future"
-        participationDto.setApplicationDeadline(DateHandler.toISOString(IN_ONE_DAY))
+        participationDto.setAcceptanceDate(DateHandler.toISOString(IN_ONE_DAY))
 
         when:
         def response = webClient.post()
@@ -101,7 +101,7 @@ class CreateParticipationWebServiceIT extends SpockTest {
 
         when:
         def response = webClient.post()
-                .uri('/participations' + activityId)
+                .uri('/participations/' + activityId)
                 .headers(httpHeaders -> httpHeaders.putAll(headers))
                 .bodyValue(participationDto)
                 .retrieve()

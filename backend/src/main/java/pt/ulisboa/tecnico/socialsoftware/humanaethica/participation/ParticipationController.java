@@ -9,7 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto.ParticipationDto;
 
 @RestController
-@RequestMapping("/participation")
+@RequestMapping("/participations")
 public class ParticipationController {
     @Autowired
     private ParticipationService participationService;
