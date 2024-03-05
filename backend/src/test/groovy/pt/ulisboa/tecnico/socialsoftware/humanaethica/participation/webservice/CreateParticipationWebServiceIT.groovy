@@ -39,7 +39,6 @@ class CreateParticipationWebServiceIT extends SpockTest {
         activityId = activity.getId()
         volunteerId = authUserService.loginDemoVolunteerAuth().getUser().getId()
 
-        //participationDto = createParticipationDto(PARTICIPATION_RATING_1, ONE_DAY_AGO, volunteerId, activityId)
         participationDto = new ParticipationDto()
         participationDto.setRating(PARTICIPATION_RATING_1)
     }
@@ -127,7 +126,7 @@ class CreateParticipationWebServiceIT extends SpockTest {
 
         when:
         def response = webClient.post()
-                .uri('/participations' + activityId)
+                .uri('/participations/' + activityId)
                 .headers(httpHeaders -> httpHeaders.putAll(headers))
                 .bodyValue(participationDto)
                 .retrieve()
