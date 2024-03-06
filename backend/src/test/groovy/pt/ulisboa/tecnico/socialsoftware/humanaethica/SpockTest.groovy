@@ -244,6 +244,7 @@ class SpockTest extends Specification {
     // participation
     
     public static final Integer PARTICIPATION_RATING_1 = 1
+    public static final Integer PARTICIPATION_RATING_2 = 2
     public static final Integer PARTICIPATION_ACTIVITY_LIMIT_1 = 1
     public static final Integer PARTICIPATION_ACTIVITY_LIMIT_2 = 2
 
