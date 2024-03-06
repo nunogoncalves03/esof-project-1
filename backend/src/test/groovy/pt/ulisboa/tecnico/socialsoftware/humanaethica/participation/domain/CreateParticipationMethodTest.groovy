@@ -8,25 +8,20 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto.Particip
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.domain.Participation
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler
 import spock.lang.Unroll
-import java.time.LocalDateTime
 
 @DataJpaTest
 class CreateParticipationMethodTest extends SpockTest {
     Activity activity = Mock()
     Volunteer volunteer = Mock()
     Participation otherParticipation = Mock()
-    Integer rating = 1
     def participationDto
 
     def setup() {
         given: "participation info"
         participationDto = new ParticipationDto()
         participationDto.rating = PARTICIPATION_RATING_1
-        participationDto.acceptanceDate = DateHandler.toISOString(NOW);
 
         and: "activity"
         activity.getId() >> 1
@@ -36,7 +31,7 @@ class CreateParticipationMethodTest extends SpockTest {
         given:
         volunteer.getParticipations() >> []
         activity.getParticipations() >> []
-        activity.getParticipantsNumberLimit() >> 1
+        activity.getParticipantsNumberLimit() >> PARTICIPATION_ACTIVITY_LIMIT_1
         activity.applicationDeadline >> ONE_DAY_AGO
 
         when:
@@ -56,12 +51,14 @@ class CreateParticipationMethodTest extends SpockTest {
     @Unroll
     def "create participation and violate participants limit invariant"() {
         given:
-        activity.getParticipations() >> [otherParticipation]
-        activity.getParticipantsNumberLimit() >> 0
-        activity.applicationDeadline >> ONE_DAY_AGO
+        def activity_2 = new Activity()
+        activity_2.addParticipation(otherParticipation)
+        activity_2.setParticipantsNumberLimit(PARTICIPATION_ACTIVITY_LIMIT_1)
+        activity_2.applicationDeadline >> ONE_DAY_AGO
+        volunteer.getParticipations() >> []
 
         when:
-        new Participation(activity, volunteer, participationDto)
+        new Participation(activity_2, volunteer, participationDto)
 
         then:
         def exception = thrown(HEException)
@@ -71,10 +68,11 @@ class CreateParticipationMethodTest extends SpockTest {
     @Unroll
     def "create participation and violate volunteer can only participate once in an activity invariant"() {
         given:
-        otherParticipation.getActivity() >> activity
-        volunteer.getParticipations() >> [otherParticipation]
         activity.applicationDeadline >> ONE_DAY_AGO
-        activity.getParticipantsNumberLimit() >> 1
+        otherParticipation.getActivity() >> activity
+        activity.getParticipations() >> [otherParticipation]
+        volunteer.getParticipations() >> [otherParticipation]
+        activity.getParticipantsNumberLimit() >> PARTICIPATION_ACTIVITY_LIMIT_2
 
         when:
         new Participation(activity, volunteer, participationDto)
@@ -86,6 +84,9 @@ class CreateParticipationMethodTest extends SpockTest {
 
     def "create participation and violate participation before activity deadline invariant"() {
         given:
+        activity.getParticipations() >> []
+        volunteer.getParticipations() >> []
+        activity.getParticipantsNumberLimit() >> 1
         activity.applicationDeadline >> IN_ONE_DAY
 
         when:

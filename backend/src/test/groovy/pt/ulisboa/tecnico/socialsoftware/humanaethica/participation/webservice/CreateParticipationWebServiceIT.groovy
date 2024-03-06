@@ -40,7 +40,10 @@ class CreateParticipationWebServiceIT extends SpockTest {
         activityId = activity.getId()
         volunteerId = authUserService.loginDemoVolunteerAuth().getUser().getId()
 
-        participationDto = createParticipationDto(PARTICIPATION_RATING_1, NOW, volunteerId, activityId)
+        participationDto = new ParticipationDto()
+        participationDto.setRating(PARTICIPATION_RATING_1)
+        participationDto.setVolunteerId(volunteerId)
+
     }
 
     def "login as member, and create a participation"() {
@@ -57,7 +60,6 @@ class CreateParticipationWebServiceIT extends SpockTest {
                 .block()
 
         then: "check response data"
-        response.activityId == activityId
         response.volunteerId == volunteerId
         response.rating == PARTICIPATION_RATING_1
         response.acceptanceDate != null
@@ -65,7 +67,6 @@ class CreateParticipationWebServiceIT extends SpockTest {
         and: "check database data"
         participationRepository.count() == 1
         def participation = participationRepository.findAll().get(0)
-        participation.getActivity().getId() == activityId
         participation.getVolunteer().getId() == volunteerId
         participation.getRating() == PARTICIPATION_RATING_1
         participation.getAcceptanceDate() != null
@@ -78,7 +79,7 @@ class CreateParticipationWebServiceIT extends SpockTest {
         given: "a member"
         demoMemberLogin()
 
-        and: "an activity with no participants limit"
+        and: "a participation with invalid volunteer id"
         participationDto.setVolunteerId(null)
 
         when:

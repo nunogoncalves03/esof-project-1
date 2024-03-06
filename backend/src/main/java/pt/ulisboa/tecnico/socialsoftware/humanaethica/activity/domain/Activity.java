@@ -34,7 +34,7 @@ public class Activity {
     @Enumerated(EnumType.STRING)
     private Activity.State state = Activity.State.APPROVED;
 
-    @ManyToMany (fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "activity_themes")
     private List<Theme> themes = new ArrayList<>();
 

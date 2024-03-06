@@ -8,7 +8,6 @@ public class ParticipationDto {
     private Integer rating;
     private String acceptanceDate;
     private Integer volunteerId;
-    private Integer activityId;
 
     public ParticipationDto() {
     }
@@ -17,7 +16,6 @@ public class ParticipationDto {
         setId(participation.getId());
         setAcceptanceDate(DateHandler.toISOString(participation.getAcceptanceDate()));
         setVolunteerId(participation.getVolunteer().getId());
-        setActivityId(participation.getActivity().getId());
 
         if (participation.getRating() != null) {
             setRating(participation.getRating());
@@ -56,21 +54,12 @@ public class ParticipationDto {
         this.volunteerId = volunteerId;
     }
 
-    public Integer getActivityId() {
-        return activityId;
-    }
-
-    public void setActivityId(Integer activityId) {
-        this.activityId = activityId;
-    }
-
     @Override
     public String toString() {
         return "ParticipationDto{" +
                 "id=" + id +
                 ", rating='" + rating + '\'' +
                 ", acceptanceDate='" + acceptanceDate + '\'' +
-                ", activity=" + activityId +
                 ", volunteer=" + volunteerId +
                 '}';
     }

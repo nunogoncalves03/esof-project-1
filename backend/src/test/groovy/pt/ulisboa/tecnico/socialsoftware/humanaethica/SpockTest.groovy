@@ -240,21 +240,15 @@ class SpockTest extends Specification {
     // participation
     
     public static final Integer PARTICIPATION_RATING_1 = 1
+    public static final Integer PARTICIPATION_ACTIVITY_LIMIT_1 = 1
+    public static final Integer PARTICIPATION_ACTIVITY_LIMIT_2 = 2
+
 
     @Autowired
     ParticipationRepository participationRepository
 
     @Autowired 
     ParticipationService participationService
-
-    protected ParticipationDto createParticipationDto(rating, acceptanceDate, volunteerId, activityId) {
-        def participationDto = new ParticipationDto()
-        participationDto.setRating(rating)
-        participationDto.setAcceptanceDate(DateHandler.toISOString(acceptanceDate))
-        participationDto.setVolunteerId(volunteerId)
-        participationDto.setActivityId(activityId)
-        participationDto
-    }
 
     // clean database
 
