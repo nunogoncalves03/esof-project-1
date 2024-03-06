@@ -67,6 +67,7 @@ class CreateParticipationWebServiceIT extends SpockTest {
         and: "check database data"
         participationRepository.count() == 1
         def participation = participationRepository.findAll().get(0)
+        participation.getActivity().getId() == activityId
         participation.getVolunteer().getId() == volunteerId
         participation.getRating() == PARTICIPATION_RATING_1
         participation.getAcceptanceDate() != null

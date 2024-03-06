@@ -21,7 +21,6 @@ class CreateParticipationServiceTest extends SpockTest {
     def volunteer
 
     def setup() {
-        //volunteer = new UserDto(authUserService.getDemoVolunteer())
         volunteer = authUserService.loginDemoVolunteerAuth().getUser()
 
         def institution = institutionService.getDemoInstitution()
@@ -57,14 +56,14 @@ class CreateParticipationServiceTest extends SpockTest {
     }
 
     @Unroll
-    def 'invalid arguments: volunteerId=#volunteerId'() {
+    def 'invalid arguments: volunteerId=#volunteerId | activityId=#activityId'() {
 
         given: "an activity dto"
         def participationDto = new ParticipationDto()
         participationDto.setVolunteerId(getVolunteerId(volunteerId))
 
         when: 
-        participationService.createParticipation(activity.getId(), participationDto)
+        participationService.createParticipation(getActivityId(activityId), participationDto)
 
         then:
         def error = thrown(HEException)
@@ -74,10 +73,21 @@ class CreateParticipationServiceTest extends SpockTest {
         participationRepository.findAll().size() == 0
 
         where:
-        volunteerId || errorMessage
-        null        || ErrorMessage.VOLUNTEER_NOT_FOUND
-        NO_EXIST    || ErrorMessage.VOLUNTEER_NOT_FOUND
+        volunteerId | activityId || errorMessage
+        EXIST       | null       || ErrorMessage.ACTIVITY_NOT_FOUND
+        EXIST       | NO_EXIST   || ErrorMessage.ACTIVITY_NOT_FOUND
+        null        | EXIST      || ErrorMessage.VOLUNTEER_NOT_FOUND
+        NO_EXIST    | EXIST      || ErrorMessage.VOLUNTEER_NOT_FOUND
 
+
+    }
+
+    def getActivityId(activityId) {
+        if (activityId == EXIST)
+            return activity.id
+        else if (activityId == NO_EXIST)
+            return 999
+        return null
     }
 
     def getVolunteerId(volunteerId) {
