@@ -11,7 +11,6 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.domain.Parti
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.dto.ParticipationDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.repository.ParticipationRepository;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.dto.UserDto;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.repository.UserRepository;
 
 import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.ACTIVITY_NOT_FOUND;

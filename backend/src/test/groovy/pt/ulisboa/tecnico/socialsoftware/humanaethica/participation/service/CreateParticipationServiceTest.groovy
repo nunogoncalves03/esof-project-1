@@ -9,7 +9,6 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity
 import spock.lang.Unroll
-import java.time.LocalDateTime
 
 
 @DataJpaTest
