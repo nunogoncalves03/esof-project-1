@@ -13,6 +13,10 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.repository.P
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.repository.UserRepository;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
+
 import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.ACTIVITY_NOT_FOUND;
 import static pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage.VOLUNTEER_NOT_FOUND;
 
@@ -24,6 +28,18 @@ public class ParticipationService {
     ActivityRepository activityRepository;
     @Autowired
     UserRepository userRepository;
+
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public List<ParticipationDto> getParticipationsByActivity(Integer activityID) {
+        if(activityID == null) throw new HEException(ACTIVITY_NOT_FOUND);
+        activityRepository.findById(activityID).orElseThrow(() -> new HEException(ACTIVITY_NOT_FOUND, activityID));
+
+        return participationRepository.getParticipationsByActivityId(activityID)
+                .stream()
+                .map(participation -> new ParticipationDto(participation))
+                .sorted(Comparator.comparing(dto -> LocalDateTime.parse(dto.getAcceptanceDate())))
+                .toList();
+    }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public ParticipationDto createParticipation(Integer activityId, ParticipationDto participationDto) {
