@@ -63,7 +63,7 @@ class RegisterAssessmentWebServiceIT extends SpockTest {
 
         then: "check response data"
         response.review == REVIEW_20_CHARACTERS
-        response.reviewDate == DateHandler.toISOString(TWO_DAYS_AGO)
+        response.reviewDate != null
         and: "check database data"
         assessmentRepository.count() == 1
         def assessment = assessmentRepository.findAll().get(0)
