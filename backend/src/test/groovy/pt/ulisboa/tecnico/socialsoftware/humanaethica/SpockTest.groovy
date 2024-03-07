@@ -271,7 +271,6 @@ class SpockTest extends Specification {
     protected AssessmentDto createAssessmentDto(review, date) {
         def assessmentDto = new AssessmentDto()
         assessmentDto.setReview(review)
-        assessmentDto.setReviewDate(DateHandler.toISOString(date))
         assessmentDto
     }
 
