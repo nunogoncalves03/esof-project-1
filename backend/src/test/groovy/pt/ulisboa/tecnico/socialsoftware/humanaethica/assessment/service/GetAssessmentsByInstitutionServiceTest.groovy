@@ -20,7 +20,7 @@ public class GetAssessmentsByInstitutionServiceTest extends SpockTest {
         def institution = institutionService.getDemoInstitution()
 
         given: "assessment info"
-        def assessmentDto = createAssessmentDto(REVIEW_10_CHARACTERS, TWO_DAYS_AGO)
+        def assessmentDto = createAssessmentDto(REVIEW_10_CHARACTERS)
 
         and: "a theme"
         def themes = new ArrayList<>()

@@ -32,7 +32,7 @@ class RegisterAssessmentWebServiceIT extends SpockTest {
         headers.setContentType(MediaType.APPLICATION_JSON)
 
         given: "assessment info"
-        assessmentDto = createAssessmentDto(REVIEW_20_CHARACTERS, TWO_DAYS_AGO)
+        assessmentDto = createAssessmentDto(REVIEW_20_CHARACTERS)
 
         and: "an institution"
         institution = institutionService.getDemoInstitution()

@@ -30,7 +30,7 @@ class CreateAssessmentServiceTest extends SpockTest {
 
     def "create assessment"() {
         given: "an assessment dto"
-        def assessmentDto = createAssessmentDto(REVIEW_10_CHARACTERS, NOW)
+        def assessmentDto = createAssessmentDto(REVIEW_10_CHARACTERS)
 
         when:
         def result = assessmentService.createAssessment(volunteer.getId(), institution.getId(), assessmentDto)
@@ -53,7 +53,7 @@ class CreateAssessmentServiceTest extends SpockTest {
     @Unroll
     def 'invalid arguments: review=#review | institutionId=#institutionId | volunteerId=#volunteerId'() {
         given: "an assessment dto"
-        def assessmentDto = createAssessmentDto(review, NOW)
+        def assessmentDto = createAssessmentDto(review)
 
         when:
         assessmentService.createAssessment(getVolunteerId(volunteerId), getInstitutionId(institutionId), assessmentDto)
