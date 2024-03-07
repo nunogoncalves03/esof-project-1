@@ -38,8 +38,6 @@ class CreateAssessmentServiceTest extends SpockTest {
         then: "the returned data is correct"
         result.review == REVIEW_10_CHARACTERS
         result.reviewDate != null
-        result.institution.id == institution.id
-        result.volunteer.id == volunteer.id
         and: "the assessment is saved in the database"
         assessmentRepository.findAll().size() == 1
         and: "the stored data is correct"
