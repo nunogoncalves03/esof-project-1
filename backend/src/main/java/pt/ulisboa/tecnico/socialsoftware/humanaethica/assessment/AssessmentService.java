@@ -11,7 +11,6 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.assessment.repository.Asse
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.domain.Institution;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.institution.repository.InstitutionRepository;
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Member;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer;
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.repository.UserRepository;
 
@@ -46,9 +45,10 @@ public class AssessmentService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public AssessmentDto createAssessment(Integer institutionId, Integer volunteerId, AssessmentDto assessmentDto) {
-        if (volunteerId == null) throw new HEException(USER_NOT_FOUND);
-        Volunteer volunteer = (Volunteer) userRepository.findById(volunteerId).orElseThrow(() -> new HEException(USER_NOT_FOUND, volunteerId));
+    public AssessmentDto createAssessment(Integer userId, Integer institutionId, AssessmentDto assessmentDto) {
+        if (userId == null) throw new HEException(USER_NOT_FOUND);
+        Volunteer volunteer = (Volunteer) userRepository.findById(userId).orElseThrow(() -> new HEException(USER_NOT_FOUND,
+                userId));
 
         if (institutionId == null) throw new HEException(INSTITUTION_NOT_FOUND);
         Institution institution = (Institution) institutionRepository.findById(institutionId)

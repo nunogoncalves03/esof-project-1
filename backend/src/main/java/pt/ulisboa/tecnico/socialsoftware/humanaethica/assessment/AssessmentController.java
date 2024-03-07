@@ -24,6 +24,6 @@ public class AssessmentController {
     @PreAuthorize("(hasRole('ROLE_VOLUNTEER'))")
     public AssessmentDto createAssessment(Principal principal, @PathVariable int institutionId, @Valid @RequestBody AssessmentDto assessmentDto){
         int volunteerId = ((AuthUser) ((Authentication) principal).getPrincipal()).getUser().getId();
-        return assessmentService.createAssessment(institutionId, volunteerId, assessmentDto);
+        return assessmentService.createAssessment(volunteerId, institutionId, assessmentDto);
     }
 }

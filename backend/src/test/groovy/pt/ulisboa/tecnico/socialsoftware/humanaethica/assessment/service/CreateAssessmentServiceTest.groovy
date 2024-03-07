@@ -4,12 +4,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.context.TestConfiguration
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.BeanConfiguration
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.SpockTest
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.dto.ThemeDto
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.ErrorMessage
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.exceptions.HEException
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.theme.domain.Theme
 import pt.ulisboa.tecnico.socialsoftware.humanaethica.activity.domain.Activity
-import pt.ulisboa.tecnico.socialsoftware.humanaethica.utils.DateHandler
 import spock.lang.Unroll
 
 @DataJpaTest
@@ -36,7 +33,7 @@ class CreateAssessmentServiceTest extends SpockTest {
         def assessmentDto = createAssessmentDto(REVIEW_10_CHARACTERS, NOW)
 
         when:
-        def result = assessmentService.createAssessment(institution.getId(), volunteer.getId(), assessmentDto)
+        def result = assessmentService.createAssessment(volunteer.getId(), institution.getId(), assessmentDto)
 
         then: "the returned data is correct"
         result.review == REVIEW_10_CHARACTERS
@@ -59,7 +56,7 @@ class CreateAssessmentServiceTest extends SpockTest {
         def assessmentDto = createAssessmentDto(review, NOW)
 
         when:
-        assessmentService.createAssessment(getInstitutionId(institutionId), getVolunteerId(volunteerId), assessmentDto)
+        assessmentService.createAssessment(getVolunteerId(volunteerId), getInstitutionId(institutionId), assessmentDto)
 
         then:
         def error = thrown(HEException)
