@@ -64,8 +64,6 @@ class RegisterAssessmentWebServiceIT extends SpockTest {
         then: "check response data"
         response.review == REVIEW_20_CHARACTERS
         response.reviewDate == DateHandler.toISOString(TWO_DAYS_AGO)
-        response.institution.getId() == institution.getId()
-        response.volunteer.getId() == user.getId()
         and: "check database data"
         assessmentRepository.count() == 1
         def assessment = assessmentRepository.findAll().get(0)

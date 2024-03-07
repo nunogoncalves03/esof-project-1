@@ -39,7 +39,7 @@ public class AssessmentService {
                 .orElseThrow(() -> new HEException(INSTITUTION_NOT_FOUND, institutionId));
 
         return institution.getAssessments().stream()
-                .map(assessment -> new AssessmentDto(assessment,true, true))
+                .map(assessment -> new AssessmentDto(assessment))
                 .sorted(Comparator.comparing(AssessmentDto::getReviewDate, String.CASE_INSENSITIVE_ORDER))
                 .toList();
     }
@@ -57,6 +57,6 @@ public class AssessmentService {
         Assessment assessment = new Assessment(assessmentDto, institution, volunteer);
         assessmentRepository.save(assessment);
 
-        return new AssessmentDto(assessment, true, true);
+        return new AssessmentDto(assessment);
     }
 }
