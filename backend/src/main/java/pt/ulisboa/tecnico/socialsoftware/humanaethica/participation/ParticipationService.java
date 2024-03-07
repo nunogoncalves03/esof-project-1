@@ -37,7 +37,7 @@ public class ParticipationService {
         return participationRepository.getParticipationsByActivityId(activityID)
                 .stream()
                 .map(participation -> new ParticipationDto(participation))
-                .sorted(Comparator.comparing(dto -> LocalDateTime.parse(dto.getAcceptanceDate())))
+                .sorted(Comparator.comparing(ParticipationDto::getAcceptanceDate))
                 .toList();
     }
 

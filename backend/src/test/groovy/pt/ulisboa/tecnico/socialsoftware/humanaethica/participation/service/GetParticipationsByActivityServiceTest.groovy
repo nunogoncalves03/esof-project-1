@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.socialsoftware.humanaethica.enrollment.service
+package pt.ulisboa.tecnico.socialsoftware.humanaethica.participation.service
 
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.context.TestConfiguration
@@ -13,9 +13,9 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer
 import spock.lang.Unroll
 
 @DataJpaTest
-class GetParticipationsByActivityServiceTest {
-    public static final EXIST = "exist"
-    public static final NO_EXIST = "noExist"
+class GetParticipationsByActivityServiceTest extends SpockTest{
+    public static final String EXIST = "exist"
+    public static final String NO_EXIST = "noExist"
 
     def activity1
     def activity2
@@ -29,8 +29,8 @@ class GetParticipationsByActivityServiceTest {
         def institution = institutionService.getDemoInstitution()
 
         and: "2 activities"
-        def activityDto = createActivityDto(ACTIVITY_NAME_1,ACTIVITY_REGION_1,PARTICIPATION_ACTIVITY_LIMIT_1,ACTIVITY_DESCRIPTION_1,
-                IN_ONE_DAY,IN_TWO_DAYS,IN_THREE_DAYS,[])
+        def activityDto = createActivityDto(ACTIVITY_NAME_1,ACTIVITY_REGION_1,PARTICIPATION_ACTIVITY_LIMIT_2,ACTIVITY_DESCRIPTION_1,
+                TWO_DAYS_AGO,IN_TWO_DAYS,IN_THREE_DAYS,[])
         activity1 = new Activity(activityDto, institution, [])
         activityRepository.save(activity1)
 
