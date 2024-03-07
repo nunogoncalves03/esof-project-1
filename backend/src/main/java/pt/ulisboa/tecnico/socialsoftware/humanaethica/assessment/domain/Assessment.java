@@ -44,7 +44,7 @@ public class Assessment {
     private void verifyInvariants() {
         reviewHasAtLeast10Characters();
         institutionHasOneFinishedActivity();
-        volunteerAssessingInstitutionAgain();
+        volunteerCanOnlyAssessInstitutionOnce();
     }
 
     private void reviewHasAtLeast10Characters() {
@@ -60,7 +60,7 @@ public class Assessment {
         }
     }
 
-    private void volunteerAssessingInstitutionAgain() {
+    private void volunteerCanOnlyAssessInstitutionOnce () {
         if (this.institution.getAssessments().stream()
                 .anyMatch(assessment -> assessment != this && assessment.getVolunteer().getId().equals(this.volunteer.getId()))) {
             throw new HEException(ASSESSMENT_VOLUNTEER_ASSESSING_SAME_INSTITUTION_AGAIN);
