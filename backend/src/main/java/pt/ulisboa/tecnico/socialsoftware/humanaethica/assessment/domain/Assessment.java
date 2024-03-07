@@ -55,7 +55,7 @@ public class Assessment {
     
     private void institutionHasOneFinishedActivity() {
         if (!this.institution.getActivities().stream()
-            .anyMatch(activity -> activity.getEndingDate().isBefore(LocalDateTime.now()))) {
+            .anyMatch(activity -> activity.getEndingDate().isBefore(this.reviewDate))) {
                 throw new HEException(ASSESSMENT_INSTITUTION_SHOULD_HAVE_ONE_FINISHED_ACTIVITY);
         }
     }
