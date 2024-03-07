@@ -40,7 +40,7 @@ public class AssessmentService {
 
         return institution.getAssessments().stream()
                 .map(assessment -> new AssessmentDto(assessment,true, true))
-                .sorted(Comparator.comparing(AssessmentDto::getVolunteerName, String.CASE_INSENSITIVE_ORDER))
+                .sorted(Comparator.comparing(AssessmentDto::getReviewDate, String.CASE_INSENSITIVE_ORDER))
                 .toList();
     }
 
