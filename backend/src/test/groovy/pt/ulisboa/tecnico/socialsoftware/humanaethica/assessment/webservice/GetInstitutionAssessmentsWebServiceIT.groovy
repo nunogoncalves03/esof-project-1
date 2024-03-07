@@ -140,4 +140,22 @@ class GetInstitutionAssessmentsWebServiceIT extends SpockTest {
         cleanup:
         deleteAll()
     }
+
+    def "don't login, try to get non-existent institution assessments"() {
+        when:
+        def response = webClient.get()
+                .uri('/assessments/' + NO_EXIST)
+                .headers(httpHeaders -> httpHeaders.putAll(headers))
+                .retrieve()
+                .bodyToFlux(AssessmentDto.class)
+                .collectList()
+                .block()
+
+        then: "an error is returned"
+        def error = thrown(WebClientResponseException)
+        error.statusCode == HttpStatus.BAD_REQUEST
+
+        cleanup:
+        deleteAll()
+    }
 }
