@@ -52,6 +52,7 @@ class CreateAssessmentMethodTest extends SpockTest {
         result.getReview() == REVIEW_10_CHARACTERS
         result.getReviewDate() == NOW
         result.getInstitution() == institution
+        result.getVolunteer() == volunteer
         and: "invocations"
         1 * institution.addAssessment(_)
         1 * volunteer.addAssessment(_)
