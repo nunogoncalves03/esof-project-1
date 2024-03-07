@@ -36,7 +36,7 @@ public class Assessment {
         setVolunteer(volunteer);
         setInstitution(institution);
         setReview(assessmentDto.getReview());
-        setReviewDateTime(DateHandler.toLocalDateTime(assessmentDto.getReviewDate()));
+        setReviewDateTime(DateHandler.now());
 
         verifyInvariants();
     }
