@@ -35,7 +35,6 @@ public class GetAssessmentsByInstitutionServiceTest extends SpockTest {
         and: "a volunteer"
         def volunteer = new Volunteer(USER_1_NAME, USER_1_USERNAME, USER_1_EMAIL, AuthUser.Type.NORMAL, User.State.SUBMITTED)
         userRepository.save(volunteer)
-        ((AuthNormalUser) volunteer.authUser).setActive(true)
 
         and: "an assessment"
         def assessment = new Assessment(assessmentDto, institution, volunteer)
@@ -44,7 +43,6 @@ public class GetAssessmentsByInstitutionServiceTest extends SpockTest {
         and: "another volunteer"
         volunteer = new Volunteer(USER_2_NAME, USER_2_USERNAME, USER_2_EMAIL, AuthUser.Type.NORMAL, User.State.SUBMITTED)
         userRepository.save(volunteer)
-        ((AuthNormalUser) volunteer.authUser).setActive(true)
 
         and: "another assessment"
         assessmentDto.setReview(REVIEW_20_CHARACTERS)
