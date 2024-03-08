@@ -40,7 +40,6 @@ class GetParticipationsByActivityServiceTest extends SpockTest{
 
         and: "2 participations with activity 1"
         def participationDto = new ParticipationDto()
-        participationDto.setRating(PARTICIPATION_RATING_1)
 
         def participation1 = new Participation(activity1, volunteer1, participationDto)
         participationRepository.save(participation1)
@@ -56,7 +55,7 @@ class GetParticipationsByActivityServiceTest extends SpockTest{
 
         then:
         result.size() == 2
-        result.get(0).rating == PARTICIPATION_RATING_1
+        result.get(0).rating == null
         result.get(1).rating == PARTICIPATION_RATING_2
     }
 
