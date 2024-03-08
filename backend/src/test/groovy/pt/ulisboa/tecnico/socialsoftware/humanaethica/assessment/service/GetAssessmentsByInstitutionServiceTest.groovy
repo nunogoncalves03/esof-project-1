@@ -16,6 +16,8 @@ import pt.ulisboa.tecnico.socialsoftware.humanaethica.user.domain.Volunteer
 
 @DataJpaTest
 public class GetAssessmentsByInstitutionServiceTest extends SpockTest {
+    public static final Integer NO_EXIST = 999
+
     def setup() {
         def institution = institutionService.getDemoInstitution()
 
@@ -60,13 +62,16 @@ public class GetAssessmentsByInstitutionServiceTest extends SpockTest {
         result.get(1).getReview() == REVIEW_20_CHARACTERS
     }
 
-    def "get assessments of institution that does not exist"() {
+    def "get assessments of an institution that does not exist: institutionId=#institutionId"() {
         when:
-        assessmentService.getAssessmentsByInstitution(null)
+        assessmentService.getAssessmentsByInstitution(institutionId)
 
         then:
         def error = thrown(HEException)
         error.getErrorMessage() == ErrorMessage.INSTITUTION_NOT_FOUND
+
+        where:
+        institutionId << [null, NO_EXIST]
     }
 
     @TestConfiguration
