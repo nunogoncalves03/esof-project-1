@@ -67,8 +67,6 @@ public class Assessment {
         }
     }
 
-    //public void setId(Integer id) { this.id = id; }
-
     public void setReview(String review) {
         this.review = review;
     }
