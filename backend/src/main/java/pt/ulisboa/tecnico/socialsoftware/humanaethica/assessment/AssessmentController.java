@@ -21,7 +21,7 @@ public class AssessmentController {
 
     private static final Logger logger = LoggerFactory.getLogger(AssessmentController.class);
 
-    @GetMapping("{institutionId}")
+    @GetMapping("/{institutionId}")
     public List<AssessmentDto> getInstitutionAssessments(@PathVariable Integer institutionId) {
         return assessmentService.getAssessmentsByInstitution(institutionId);
     }
